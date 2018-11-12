@@ -1,4 +1,4 @@
-package com.example.azure.hhmmss;
+package kr.co.hhmmss.hhmmss;
 
 import org.junit.Test;
 
