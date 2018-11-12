@@ -1,4 +1,4 @@
-package com.example.azure.hhmmss;
+package kr.co.hhmmss.hhmmss;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

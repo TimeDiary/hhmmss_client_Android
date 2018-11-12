@@ -1,4 +1,4 @@
-package com.example.azure.hhmmss;
+package kr.co.hhmmss.hhmmss;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
