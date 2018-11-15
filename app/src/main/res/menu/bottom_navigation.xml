@@ -6,18 +6,18 @@
         android:id="@+id/Calendar"
         android:enabled="true"
         android:icon="@drawable/calendar"
-        android:title="@string/Calendar"/>
+        android:title="@string/Calendar" />
 
     <item
         android:id="@+id/TimeDiary"
         android:enabled="true"
         android:icon="@drawable/timediary"
-        android:title="@string/TimeDiary"/>
+        android:title="@string/TimeDiary" />
 
     <item
         android:id="@+id/ToDo"
         android:enabled="true"
         android:icon="@drawable/todo"
-        android:title="@string/ToDo"/>
+        android:title="@string/ToDo" />
 
 </menu>
