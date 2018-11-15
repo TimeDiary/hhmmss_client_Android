@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">HHMMSS</string>
     <string name="title_text">Google Sign-In\nQuickstart</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
 
 
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
@@ -86,6 +88,10 @@
 
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
+
+    <string name="Calendar">Calendar</string>
+    <string name="TimeDiary">TimeDiary</string>
+    <string name="ToDo">ToDo</string>
 
     <!-- Sign-in status messages -->
     <string name="signed_in_fmt">Signed in as: %s</string>
