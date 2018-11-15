@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BaseActivity" />
+        <activity android:name=".auth.GoogleLoginActivity" />
     </application>
 
 </manifest>

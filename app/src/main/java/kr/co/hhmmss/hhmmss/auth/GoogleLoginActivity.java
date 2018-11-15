@@ -1,4 +1,4 @@
-package kr.co.hhmmss.hhmmss;
+package kr.co.hhmmss.hhmmss.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import kr.co.hhmmss.hhmmss.R;
 
 /**
  *
