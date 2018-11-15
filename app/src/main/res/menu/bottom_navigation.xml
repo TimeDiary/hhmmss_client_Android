@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Bottom Navigation Items-->
+    <item
+        android:id="@+id/Calendar"
+        android:enabled="true"
+        android:icon="@drawable/calendar"
+        android:title="@string/Calendar"/>
+
+    <item
+        android:id="@+id/TimeDiary"
+        android:enabled="true"
+        android:icon="@drawable/timediary"
+        android:title="@string/TimeDiary"/>
+
+    <item
+        android:id="@+id/ToDo"
+        android:enabled="true"
+        android:icon="@drawable/todo"
+        android:title="@string/ToDo"/>
+
+</menu>

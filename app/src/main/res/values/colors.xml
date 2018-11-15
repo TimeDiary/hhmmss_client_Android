@@ -5,4 +5,9 @@
     <color name="blue_grey_700">#455A64</color>
     <color name="blue_grey_800">#37474F</color>
     <color name="blue_grey_900">#263238</color>
+    <color name="MainBackground">#FAFAFA</color>
+    <color name="BottomNavigationBackground">#61BBFF</color>
+    <color name="BottomNavigationItemTextColor">#FFFFFF</color>
+
+
 </resources>
