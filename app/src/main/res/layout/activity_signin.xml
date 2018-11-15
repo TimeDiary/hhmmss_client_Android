@@ -19,8 +19,8 @@
             android:id="@+id/google_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/g_top_margin"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/desc_google_icon"
             android:src="@drawable/googleg_color" />
 
@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/title_text"
             android:gravity="center"
+            android:text="@string/title_text"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 
