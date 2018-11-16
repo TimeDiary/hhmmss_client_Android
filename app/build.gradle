@@ -49,7 +49,6 @@ dependencies {
     // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
 //    implementation("com.twitter.sdk.android:twitter-core:3.x@aar") { transitive = true }
 
-
     //compile 'com.google.android.gms:play-services-auth:16.0.1'
     //compile >> implementation
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
