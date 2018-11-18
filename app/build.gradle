@@ -52,6 +52,10 @@ dependencies {
     //compile 'com.google.android.gms:play-services-auth:16.0.1'
     //compile >> implementation
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+    // Firebase RealtimeDatabase
+    implementation 'com.google.firebase:firebase-database:16.0.4'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
