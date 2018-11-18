@@ -13,23 +13,25 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/nav_header_main_user_Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         app:srcCompat="@drawable/ic_person_black_36dp" />
 
     <TextView
+        android:id="@+id/nav_header_main_user_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="User ID"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text=""/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nav_header_main_user_Account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Account" />
+        android:text=""
+         />
 
 </LinearLayout>

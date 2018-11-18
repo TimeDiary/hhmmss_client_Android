@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import kr.co.hhmmss.hhmmss.MainActivity;
 import kr.co.hhmmss.hhmmss.R;
 
 /**
@@ -173,6 +174,11 @@ public class SignInActivity extends BaseActivity implements
     }
 
     private void updateUI(FirebaseUser user) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+
+        /*//기존 코드
         hideProgressDialog();
         if (user != null) {
             mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
@@ -186,7 +192,7 @@ public class SignInActivity extends BaseActivity implements
 
             findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
             findViewById(R.id.signOutAndDisconnect).setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override
