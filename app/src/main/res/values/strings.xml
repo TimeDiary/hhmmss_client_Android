@@ -136,11 +136,11 @@
     <!-- TODO(user): replace with your real server client ID -->
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
          from https://console.developers.google.com/ -->
-    <string name="server_client_id">816382087562-sekth06ba1lm2dv42akmqgc53r9sqlht.apps.googleusercontent.com</string>
 
     <string name="firebase_title_text">FirebaseUI Auth</string>
 
     <string name="auth_code_fmt">Auth Code: %s</string>
     <string name="id_token_fmt">ID Token: %s</string>
+    <string name="web_client_id">816382087562-tgjuf7oc60dq9p7qqj8etguc9urc64ge.apps.googleusercontent.com</string>
 
 </resources>
