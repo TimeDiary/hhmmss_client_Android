@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TimeDiaryActivity extends Fragment {
-    public TimeDiaryActivity(){
+public class TimediaryFragment extends Fragment {
+    public TimediaryFragment() {
 
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_timediary, container, false);
     }
 }

@@ -29,13 +29,29 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:openDrawer="start">
 
-        <!-- main content -->
-        <include
-            layout="@layout/activity_main_content"
+        <!-- LinearLayout that represents the contents of the screen -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- ActionBar, displayed at the top -->
+            <include
+                layout="@layout/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <!-- main content -->
+            <FrameLayout
+                android:id="@+id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
 
         <!-- navigation drawer-->
+        <!-- The navigation drawer that comes from the left -->
         <android.support.design.widget.NavigationView
             android:id="@+id/nv_main_navigation_root"
             android:layout_width="wrap_content"
