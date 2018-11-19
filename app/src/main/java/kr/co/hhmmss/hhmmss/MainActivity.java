@@ -48,26 +48,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseUser fbUser;
 
     // For Fragments
-    private Fragment fragment;
-    private Class fragmentClass;
     private CalendarActivity calendarFragment;
     private TimediaryFragment timediaryFragment;
     private TodoActivity todoFragment;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        fragment = null;
 
         // [START init_fragments]
         calendarFragment = new CalendarActivity();
         timediaryFragment = new TimediaryFragment();
         todoFragment = new TodoActivity();
         // [END init_fragments]
+
 
         // [START init_layout]
         setContentView(R.layout.activity_main);
@@ -118,8 +115,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.add(R.id.frag_calendar, new CalendarActivity());
         ft.commit();*/
 
-        //Bottom Navigation Select
         bnv.setOnNavigationItemSelectedListener(new MyItemSelectedListener());
+
+        /* Set default fragment */
+        openFragment(timediaryFragment);
+
 
         initLayout();
     }
@@ -130,35 +130,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            Fragment fragment;
             switch (menuItem.getItemId()) {
                 case R.id.Calendar:
-                    fragmentClass = CalendarActivity.class;
-                    Log.d(TAG, fragmentClass.toString() + " called.");
+                    fragment = calendarFragment;
+                    Log.d(TAG, fragment.toString() + " called.");
                     break;
                 case R.id.TimeDiary:
-                    fragmentClass = TimediaryFragment.class;
-                    Log.d(TAG, fragmentClass.toString() + " called.");
+                    fragment = timediaryFragment;
+                    Log.d(TAG, fragment.toString() + " called.");
                     break;
                 case R.id.ToDo:
-                    fragmentClass = TodoActivity.class;
-                    Log.d(TAG, fragmentClass.toString() + " called.");
+                    fragment = todoFragment;
+                    Log.d(TAG, fragment.toString() + " called.");
                     break;
                 default:
-                    fragmentClass = TimediaryFragment.class;
-                    Log.d(TAG, fragmentClass.toString() + " called.");
+                    fragment = timediaryFragment;
+                    Log.d(TAG, fragment.toString() + " called.");
             }
 
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-                Log.d(TAG, "fragment " + fragment.toString() + "called.");
-            } catch (Exception e) {
-                Log.w(TAG, "onNavigationItemSelected:FragmentChangeFailed : ", e);
-                return false;
-            }
+            openFragment(fragment);
 
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
             // Highlight the selected item has been done by NavigationView
             menuItem.setChecked(true);
@@ -166,6 +158,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle(menuItem.getTitle());
             return true;
         }
+    }
+
+    public void openFragment(final Fragment fragment) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+
     }
 
 
