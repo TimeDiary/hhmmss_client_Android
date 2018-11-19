@@ -1,5 +1,6 @@
 package kr.co.hhmmss.hhmmss;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,14 +19,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import kr.co.hhmmss.hhmmss.auth.SignInActivity;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-//TODO Set UserInfoOnNav, use UserInfoOnNav Class // Fragment
+//TODO Set UserInfo, use UserInfo Class // Fragment
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bnv;
-
     android.support.v7.widget.Toolbar toolbar;
 
     //Navigation Drawer
@@ -38,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_header_user_Account;
     FirebaseUser fbUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //actionBar.setDisplayShowTitleEnabled(false);
-
-
 
 
         /*FragmentManager fm = getSupportFragmentManager();
@@ -80,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         initLayout();
-
     }
 
     @Override
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //Navigation Drawer
+    //Navigation Drawer item select
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
@@ -103,6 +105,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigation_drawer_item3:
                 Toast.makeText(this, "item3 clicked..", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.navigation_drawer_logout:
+                AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.navigation_drawer_delete:
+                AuthUI.getInstance().delete(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                Toast.makeText(this, "계정삭제", Toast.LENGTH_SHORT).show();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -134,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    //Navigation Drawer init
     private void initLayout() {
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.Toolbar);
         setSupportActionBar(toolbar);
@@ -148,10 +174,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
         View headerView = navigationView.getHeaderView(0);
 
+        //Set Component for User Info
         nav_header_user_Profile = (ImageView) headerView.findViewById(R.id.nav_header_main_user_Profile);
         nav_header_user_ID = (TextView) headerView.findViewById(R.id.nav_header_main_user_ID);
         nav_header_user_Account = (TextView) headerView.findViewById(R.id.nav_header_main_user_Account);
 
+        if (fbUser != null) {
+
+
+            /*if (fbUser.getPhotoUrl().toString() != "https://lh4.googleusercontent.com/-v0soe-ievYE/AAAAAAAAAAI/AAAAAAACyas/yR1_yhwBcBA/photo.jpg?sz=50"){
+                nav_header_user_Profile.setImageURI(fbUser.getPhotoUrl());
+            }else{
+//                nav_header_user_Profile.setImageURI();
+            }*/
+
+
+            nav_header_user_ID.setText(fbUser.getDisplayName());
+
+            if (fbUser.isEmailVerified())
+                nav_header_user_Account.setText(fbUser.getEmail());
+
+
+        } else {
+            nav_header_user_Profile.setImageURI(null);
+            nav_header_user_ID.setText(null);
+            nav_header_user_Account.setText(null);
+        }
 
 
         drawerToggle = new ActionBarDrawerToggle(

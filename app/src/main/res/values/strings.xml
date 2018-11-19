@@ -2,11 +2,17 @@
     <string name="app_name">HHMMSS</string>
 
 
-    <string name="title_text">Google Sign-In\nQuickstart</string>
+    <!--<string name="title_text">Google Sign-In\nQuickstart</string>-->
+    <!--Navigation Drawer-->
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+    <string name="naviagtion_drawer_logout">로그아웃</string>
+    <string name="naviagtion_drawer_delete">계정삭제</string>
 
 
+
+
+    <!--SignIn Activity String-->
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
 
