@@ -17,22 +17,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        app:srcCompat="@drawable/ic_person_black_36dp"
-    />
+        app:srcCompat="@drawable/ic_person_black_36dp" />
 
     <TextView
         android:id="@+id/nav_header_main_user_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:text=""/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/nav_header_main_user_Account"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-         />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -2,6 +2,8 @@ package kr.co.hhmmss.hhmmss;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -28,29 +30,29 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import kr.co.hhmmss.hhmmss.auth.SignInActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private BottomNavigationView bnv;
-
     // Navigation Drawer
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
 
     // User info on Navigation Drawer
-    private ImageView nav_header_user_Profile;
-    private TextView nav_header_user_ID;
-    private TextView nav_header_user_Account;
     private FirebaseUser fbUser;
+    private Bitmap bitmap;
 
     // For Fragments
     private CalendarFragment calendarFragment;
     private TimediaryFragment timediaryFragment;
     private TodoFragment todoFragment;
-
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         timediaryFragment = new TimediaryFragment();
         todoFragment = new TodoFragment();
         // [END init_fragments]
-
 
         // [START init_layout]
         setContentView(R.layout.activity_main);
@@ -79,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
-
-
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
             // we could end up with overlapping fragments.
@@ -97,29 +96,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //            // Add the fragment to the 'fragment_container' FrameLayout
 //            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
-
-
         }
 
-        bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
-        //User info on Navigation Drawer
 
 
         //actionBar.setDisplayShowTitleEnabled(false);
 
-
-        /*FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.frag_calendar, new CalendarFragment());
-        ft.commit();*/
-
         bnv.setOnNavigationItemSelectedListener(new MyItemSelectedListener());
-
         /* Set default fragment */
         openFragment(timediaryFragment);
-
-
         initLayout();
     }
 
@@ -147,9 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = timediaryFragment;
                     Log.d(TAG, fragment.toString() + " called.");
             }
-
             openFragment(fragment);
-
 
             // Highlight the selected item has been done by NavigationView
             menuItem.setChecked(true);
@@ -254,36 +239,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
-        navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
         View headerView = navigationView.getHeaderView(0);
 
         //Set Component for User Info
-        nav_header_user_Profile = (ImageView) headerView.findViewById(R.id.nav_header_main_user_Profile);
-        nav_header_user_ID = (TextView) headerView.findViewById(R.id.nav_header_main_user_ID);
-        nav_header_user_Account = (TextView) headerView.findViewById(R.id.nav_header_main_user_Account);
+        ImageView nav_header_user_Profile = headerView.findViewById(R.id.nav_header_main_user_Profile);
+        TextView nav_header_user_ID = (TextView) headerView.findViewById(R.id.nav_header_main_user_ID);
+        TextView nav_header_user_Account = (TextView) headerView.findViewById(R.id.nav_header_main_user_Account);
 
         if (fbUser != null) {
 
+            //Uri to Bitmap
+            Thread mThread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(fbUser.getPhotoUrl().toString());
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+                        InputStream is = conn.getInputStream();
+                        bitmap = BitmapFactory.decodeStream(is);
+                    } catch (MalformedURLException mue) {
+                        mue.printStackTrace();
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+                }
+            };
+            mThread.start();
+            try {
+                mThread.join();
+                //Set User Profile
+                nav_header_user_Profile.setImageBitmap(bitmap);
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
 
-            /*if (fbUser.getPhotoUrl().toString() != "https://lh4.googleusercontent.com/-v0soe-ievYE/AAAAAAAAAAI/AAAAAAACyas/yR1_yhwBcBA/photo.jpg?sz=50"){
-                nav_header_user_Profile.setImageURI(fbUser.getPhotoUrl());
-            }else{
-//                nav_header_user_Profile.setImageURI();
-            }*/
-
-
+            //Set User ID
             nav_header_user_ID.setText(fbUser.getDisplayName());
-
+            //Set User Email Account
             if (fbUser.isEmailVerified())
                 nav_header_user_Account.setText(fbUser.getEmail());
-
-
         } else {
             nav_header_user_Profile.setImageURI(null);
-            nav_header_user_ID.setText(null);
+            nav_header_user_ID.setText(R.string.offline);
             nav_header_user_Account.setText(null);
         }
-
 
         drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -296,7 +298,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -305,6 +306,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-
-
 }
