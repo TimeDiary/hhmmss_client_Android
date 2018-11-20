@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TodoActivity extends Fragment {
-    public TodoActivity(){
+public class TodoFragment extends Fragment {
+    public TodoFragment(){
 
     }
     @Override

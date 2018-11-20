@@ -30,7 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import kr.co.hhmmss.hhmmss.auth.SignInActivity;
 
-//TODO Set UserInfo, use UserInfo Class // Fragment
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bnv;
@@ -48,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseUser fbUser;
 
     // For Fragments
-    private CalendarActivity calendarFragment;
+    private CalendarFragment calendarFragment;
     private TimediaryFragment timediaryFragment;
-    private TodoActivity todoFragment;
+    private TodoFragment todoFragment;
 
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -60,9 +59,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         // [START init_fragments]
-        calendarFragment = new CalendarActivity();
+        calendarFragment = new CalendarFragment();
         timediaryFragment = new TimediaryFragment();
-        todoFragment = new TodoActivity();
+        todoFragment = new TodoFragment();
         // [END init_fragments]
 
 
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /*FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.frag_calendar, new CalendarActivity());
+        ft.add(R.id.frag_calendar, new CalendarFragment());
         ft.commit();*/
 
         bnv.setOnNavigationItemSelectedListener(new MyItemSelectedListener());

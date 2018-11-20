@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CalendarActivity extends Fragment {
-    public CalendarActivity(){
+public class CalendarFragment extends Fragment {
+    public CalendarFragment(){
 
     }
 
