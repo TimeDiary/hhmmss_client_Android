@@ -5,88 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Spinner
+        android:id="@+id/tdDateSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/sample_date"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/tdTableLayout"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TableLayout
+        android:id="@+id/tdTableLayout"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/tdDateSpinner">
 
 
         <TableRow>
 
-
             <TextView
-                android:id="@+id/tdDateView"
+                android:id="@+id/tdHourTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Date" />
+                android:gravity="center"
+                android:text="time" />
 
             <TextView
-                android:id="@+id/tdTimeView"
+                android:id="@+id/tdCommentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Time" />
+                android:layout_weight="6"
+                android:gravity="center"
+                android:text="comment" />
 
             <TextView
-                android:id="@+id/tdRatingView"
+                android:id="@+id/tdRatingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rating" />
-
-            <TextView
-                android:id="@+id/tdCommentView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Comment" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/tdDateDBView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Date" />
-
-            <EditText
-                android:id="@+id/tdTimeDBView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Time" />
-
-            <EditText
-                android:id="@+id/tdRatingDBView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rating" />
-
-            <EditText
-                android:id="@+id/tdCommentDBView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:text="Comment" />
-        </TableRow>
-
-        <TableRow>
-
-            <Button
-                android:id="@+id/tdSaveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save"
-                tools:layout_editor_absoluteX="128dp"
-                tools:layout_editor_absoluteY="124dp" />
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="rating" />
         </TableRow>
 
     </TableLayout>
