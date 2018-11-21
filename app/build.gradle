@@ -18,7 +18,10 @@ android {
         }
     }
 }
-
+//graph를 그리기 위해 mpandroidchart추가
+repositories {
+    maven { url "https://jitpack.io" }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
