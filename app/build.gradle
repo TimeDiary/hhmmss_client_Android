@@ -56,6 +56,9 @@ dependencies {
     // Firebase RealtimeDatabase
     implementation 'com.google.firebase:firebase-database:16.0.5'
 
+    // Firebase Cloud Firestore
+    implementation 'com.google.firebase:firebase-firestore:17.1.3'
+
 
 }
 

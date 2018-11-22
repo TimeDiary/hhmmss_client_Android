@@ -23,3 +23,4 @@
 -keepattributes Signature
 
 -keepclassmembers class kr.co.hhmmss.hhmmss.Timediary
+-keepclassmembers class kr.co.hhmmss.hhmmss.TimediarySettings

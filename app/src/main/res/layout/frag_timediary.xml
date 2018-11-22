@@ -9,7 +9,7 @@
         android:id="@+id/tdDateSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/sample_date"
+        android:entries="@array/timediary_date_list"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/tdTableLayout"
         tools:layout_editor_absoluteX="0dp" />
@@ -30,7 +30,7 @@
                 android:id="@+id/tdHourTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2.2"
                 android:gravity="center"
                 android:text="time" />
 
@@ -38,7 +38,7 @@
                 android:id="@+id/tdCommentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="6"
+                android:layout_weight="8"
                 android:gravity="center"
                 android:text="comment" />
 
@@ -46,9 +46,11 @@
                 android:id="@+id/tdRatingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="5"
                 android:gravity="center"
                 android:text="rating" />
+
+
         </TableRow>
 
     </TableLayout>
