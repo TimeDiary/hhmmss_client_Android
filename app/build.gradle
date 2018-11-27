@@ -52,6 +52,22 @@ dependencies {
     //compile 'com.google.android.gms:play-services-auth:16.0.1'
     //compile >> implementation
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+
+    //Calendar API Setting
+    implementation 'com.android.support:support-media-compat:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    //implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'pub.devrel:easypermissions:0.3.0'
+    implementation('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-calendar:v3-rev235-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

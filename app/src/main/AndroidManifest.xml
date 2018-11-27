@@ -9,6 +9,12 @@
     <!--Line:20 tools:ignore="GoogleAppIndexingWarning"-->
     <!--Manifest 권고로 인한 속성 추가, 어떤 역할인지는 모르므로 주의-->
 
+    <!--Calendar API Setting-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"

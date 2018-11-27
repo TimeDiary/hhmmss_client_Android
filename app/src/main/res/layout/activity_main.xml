@@ -41,14 +41,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
             <!-- main content -->
             <FrameLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-
 
         <!-- navigation drawer-->
         <!-- The navigation drawer that comes from the left -->

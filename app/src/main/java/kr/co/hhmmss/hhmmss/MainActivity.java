@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // Set a Toolbar to replace the Actionbar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Find drawer view
-        drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
+        drawerLayout = findViewById(R.id.dl_main_drawer_root);
         // [END init_layout]
 
         // Check that the activity is using the layout version with
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
         }
 
-        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bnv = findViewById(R.id.bottom_navigation);
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -165,14 +165,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.navigation_drawer_item1:
-                Toast.makeText(this, "item1 clicked..", Toast.LENGTH_SHORT).show();
+            case R.id.navigation_drawer_setting:
+                Toast.makeText(this, "설정 - 미구현", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.navigation_drawer_item2:
-                Toast.makeText(this, "item2 clicked..", Toast.LENGTH_SHORT).show();
+            case R.id.navigation_drawer_sync:
+                Toast.makeText(this, "동기화 - 미구현", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.navigation_drawer_item3:
-                Toast.makeText(this, "item3 clicked..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.navigation_drawer_logout:
                 AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -238,14 +238,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
+        drawerLayout = findViewById(R.id.dl_main_drawer_root);
+        NavigationView navigationView = findViewById(R.id.nv_main_navigation_root);
         View headerView = navigationView.getHeaderView(0);
 
         //Set Component for User Info
         ImageView nav_header_user_Profile = headerView.findViewById(R.id.nav_header_main_user_Profile);
-        TextView nav_header_user_ID = (TextView) headerView.findViewById(R.id.nav_header_main_user_ID);
-        TextView nav_header_user_Account = (TextView) headerView.findViewById(R.id.nav_header_main_user_Account);
+        TextView nav_header_user_ID = headerView.findViewById(R.id.nav_header_main_user_ID);
+        TextView nav_header_user_Account = headerView.findViewById(R.id.nav_header_main_user_Account);
 
         if (fbUser != null) {
 

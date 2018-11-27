@@ -4,11 +4,13 @@
         android:id="@+id/menu_item_gruop1"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/navigation_drawer_item1"
-            android:title="1" />
+            android:id="@+id/navigation_drawer_setting"
+            android:icon="@drawable/ic_setting"
+            android:title="@string/navigation_drawer_setting" />
         <item
-            android:id="@+id/navigation_drawer_item2"
-            android:title="2" />
+            android:id="@+id/navigation_drawer_sync"
+            android:icon="@drawable/ic_sync"
+            android:title="@string/navigation_drawer_sync" />
         <item
             android:id="@+id/navigation_drawer_item3"
             android:title="3" />
@@ -21,10 +23,15 @@
         android:id="@+id/menu_item_gruop2"
         android:checkableBehavior="none">
         <item
+            android:enabled="false"
+            android:title="@string/navigation_drawer_account" />
+        <item
             android:id="@+id/navigation_drawer_logout"
+            android:icon="@drawable/ic_logout"
             android:title="@string/naviagtion_drawer_logout" />
         <item
             android:id="@+id/navigation_drawer_delete"
+            android:icon="@drawable/ic_logdel"
             android:title="@string/naviagtion_drawer_delete" />
 
     </group>
