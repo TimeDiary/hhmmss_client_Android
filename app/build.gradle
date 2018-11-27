@@ -6,6 +6,7 @@ android {
         applicationId "kr.co.hhmmss.hhmmss"
         minSdkVersion 16 // Firebase가 SDK 16이상을 요구함.
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,6 +21,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
