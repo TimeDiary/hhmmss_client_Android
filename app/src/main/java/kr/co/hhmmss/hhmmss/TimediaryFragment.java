@@ -1,19 +1,24 @@
 package kr.co.hhmmss.hhmmss;
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,14 +39,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.hhmmss.hhmmss.timediary.day.TimediaryDayFragment;
+import kr.co.hhmmss.hhmmss.timediary.stat.TimediaryStatFragment;
+import kr.co.hhmmss.hhmmss.timediary.week.TimediaryWeekFragment;
+
 public class TimediaryFragment extends Fragment {
-
-
     private FirebaseUser firebaseUser; // Firebase User who currently signed in.
     private String uid; // uid for current user.
 
@@ -59,33 +65,25 @@ public class TimediaryFragment extends Fragment {
 
     // view variables(for test)
     private View view;
+    private View onedayView;
     private Spinner tdDateSpinner;
     private TableLayout tdTableLayout;
-    private List<TableRow> tdTableRows;
-    private int rowCount;
     private List<String> tdDateList;
     private List<Long> tdTimeList;
-    private Map<Long, Timediary> timeTDMap; // <time, Timediary>
-    private Map<Long, Map<Long, Timediary>> dateTimeTDMap; // <date, timeTDMap>
-    private ArrayAdapter<String> tdDateSpinnerAdapter;
-
-    // date for one day view.(Sample)
-    private Long _date;
+    private ViewPager viewPager;
+    private SectionsPagerAdapter sectionsPagerAdapter;
 
 
     private final String TAG = TimediaryFragment.class.getSimpleName();
 
-
-    public TimediaryFragment() {
-
-    }
-
+    /**
+     * The number of pages to show in Timediary Fragment.
+     */
+    private static final int NUM_PAGES = 3;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
-
-        view = inflater.inflate(R.layout.frag_timediary, container, false);
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // Get current user's uid
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -97,97 +95,116 @@ public class TimediaryFragment extends Fragment {
         settingsCollectionRef = db.collection("settings");
 
 
-        // Read settings
-        getSettings("timediary");
-
-        //
-
-        // Set views
-        tdDateSpinner = view.findViewById(R.id.tdDateSpinner);
-        tdTableLayout = view.findViewById(R.id.tdTableLayout);
-        tdTableRows = new ArrayList<>();
-        tdDateList = new ArrayList<>();
-        tdTimeList = new ArrayList<>();
-        dateTimeTDMap = new HashMap<>();
-        timeTDMap = new HashMap<>();
-
-        // [START put_rows_into_timediary]
-//        Long start = timediarySettings.getStart();
-//        Log.d(TAG, "StartTime: " + start.toString());
-//        Long end = timediarySettings.getEnd();
-//        Log.d(TAG, "EndTime: " + end.toString());
-//        Long frequency = timediarySettings.getFrequency();
-//        Log.d(TAG, "Frequency: " + frequency.toString());
-        /* test_data */
-
-        Long start = Long.valueOf(9);
-        Long end = Long.valueOf(18);
-        Long frequency = Long.valueOf(1);
-        /* test_data */
-
-        /* Sample Table */
-        initTestTable(start, end, frequency);
-
-        /* End of Sample Table */
+        // [END set_actionbar]
 
 
-        // [END put_rows_into_timediary]
+    }
+
+    // [START onCreateView]
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanseState) {
+        super.onCreateView(inflater, container, savedInstanseState);
+
+        view = inflater.inflate(R.layout.frag_timediary_main, container, false);
+
+        // [START ..]
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        viewPager = (ViewPager) view.findViewById(R.id.container);
+        viewPager.setAdapter(sectionsPagerAdapter);
+
+
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "구현 예정...", Snackbar.LENGTH_LONG)
+                        .setAction("Ac2tion", null).show();
+            }
+        });
+        // [END ..]
 
 
         // Inflate the layout for this fragment
         return view;
     }
-
-    void initTestTable(Long start, Long end, Long frequency) {
-
-        for (Long time = start; time <= end; time += frequency) {
-
-            tdTimeList.add(time);
-
-            TableRow row = new TableRow(view.getContext());
-
-            // row's data
-            TextView timeTextView = new TextView(view.getContext());
-            EditText commentEditText = new EditText(view.getContext());
-            EditText ratingEditText = new EditText(view.getContext());
-
-            // [START init_timeTextView]
-            timeTextView.setGravity(Gravity.CENTER);
-            timeTextView.setText(time.toString());
-            timeTextView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 2.2f));
-            row.addView(timeTextView);
-            // [END init_timeTextView]
-
-            // [START init_commentEditText]
-            commentEditText.setGravity(Gravity.CENTER);
-            // TODO: Write readTimediary(Long date, Long time, timediary) { return Timediary }
-//            commentEditText.setText(readComment(date, time));
-            commentEditText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 8f));
-            row.addView(commentEditText);
-            // [END init_commentEditText]
-
-            // [START init_ratingEditText]
-            ratingEditText.setGravity(Gravity.CENTER);
-            // TODO: Write readTimediary(Long date, Long time, timediary) { return Timediary }
-            commentEditText.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 5f));
-            row.addView(ratingEditText);
-            // [END init_ratingEditText]
-
-            tdTableRows.add(row); // [Remove..?]
-            tdTableLayout.addView(row, tdTableRows.size());
-            Log.d(TAG, "TableRow added.");
+    // [END onCreateView]
 
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds itmes to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.menu_timediary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            switch (position) {
+                case 0:
+                    return new TimediaryDayFragment();
+                case 1:
+                    return new TimediaryWeekFragment();
+                case 2:
+                    return new TimediaryStatFragment();
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return NUM_PAGES;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "TimediaryTab " + (position + 1);
+        }
+
+        public void onCreateOptionsMenu(Menu menu) {
+            // Inflate the menu; this adds itmes to the action bar if it is present.
+            getActivity().getMenuInflater().inflate(R.menu.menu_timediary, menu);
         }
     }
-
-    // [START push_date_into_dateSpinner]
-    private void pushDateIntoSpinner(String sDate) {
-        tdDateList.add(sDate);
-        tdDateSpinnerAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, tdDateList);
-        tdDateSpinner.setAdapter(tdDateSpinnerAdapter);
-    }
-    // [END push_date_into_dateSpinner]
+    /* .. */
 
 
     // [START set_settings]
@@ -615,9 +632,5 @@ public class TimediaryFragment extends Fragment {
 
             return result;
         }
-
-
     }
-
-
 }

@@ -8,4 +8,10 @@
     <dimen name="icon_bottom_margin">24dp</dimen>
     <dimen name="title_bottom_margin">16dp</dimen>
     <dimen name="field_width_standard">160dp</dimen>
+    <dimen name="fab_margin">12dp</dimen>
+    <dimen name="maincontent_bottom_margin">59dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="day_commentview_padding">10dp</dimen>
+    <dimen name="timediary_day_text_size">25dp</dimen>
+    <dimen name="timediary_text_padding">12dp</dimen>
 </resources>
