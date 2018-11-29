@@ -13,43 +13,47 @@ import android.widget.ImageButton;
 public class CalendarSetDialogFragment extends DialogFragment {
 
     CalendarEvent calendarEvent;
+    ImageButton cancelButton;
+    Button saveButton;
+    private String title;
+    private String account;
+    private String other;
+    private String location;
+    private String memo;
+    private EditText titleText;
+    private EditText otherText;
+    private EditText locationText;
+    private EditText memoText;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        ImageButton cancelButton = getActivity().findViewById(R.id.set_calendar_schedule_cancel);
-        Button saveButton = getActivity().findViewById(R.id.set_calendar_schedule_save);
-        EditText titleText = getActivity().findViewById(R.id.set_calendar_title);
-        EditText otherText = getActivity().findViewById(R.id.set_calendar_other);
-        EditText locationText = getActivity().findViewById(R.id.set_calendar_location);
-        EditText memoText = getActivity().findViewById(R.id.set_calendar_memo);
+        View view = inflater.inflate(R.layout.frag_set_calendar, container);
+        cancelButton = view.findViewById(R.id.set_calendar_schedule_cancel);
+        saveButton = view.findViewById(R.id.set_calendar_schedule_save);
+        titleText = view.findViewById(R.id.set_calendar_title);
+        otherText = view.findViewById(R.id.set_calendar_other);
+        locationText = view.findViewById(R.id.set_calendar_location);
+        memoText = view.findViewById(R.id.set_calendar_memo);
 
         calendarEvent = new CalendarEvent();
 
-        final String title = titleText.getText().toString();
-        final String account = null;
-        final String other = otherText.getText().toString();
-        final String location = locationText.getText().toString();
-        final String memo = memoText.getText().toString();
-
         cancelButton.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                getDialog().cancel();
+                //getDialog().cancel();
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 calendarEvent.setTitle(title);
-                calendarEvent.setAccount(account);
-                calendarEvent.setOther(other);
-                calendarEvent.setLocation(location);
-                calendarEvent.setMemo(memo);
+                calendarEvent.setAccount(account = null);
+                calendarEvent.setOther(other = otherText.getText().toString());
+                calendarEvent.setLocation(location = locationText.getText().toString());
+                calendarEvent.setMemo(memo = memoText.getText().toString());
             }
         });
 
-        return inflater.inflate(R.layout.frag_set_calendar, container);
+        return view;
     }
-
 }

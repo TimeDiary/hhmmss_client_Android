@@ -23,22 +23,35 @@
 
         <TextView
             android:id="@+id/left_textView"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="7" />
 
         <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <Button
+                    android:id="@+id/temp_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Set Calendar Dialog Fragment" />
+
+            </LinearLayout>
 
         </ScrollView>
-        <Button
-            android:id="@+id/temp_btn"
-            android:text="asdasd"
-            />
+
     </TableRow>
 
 
