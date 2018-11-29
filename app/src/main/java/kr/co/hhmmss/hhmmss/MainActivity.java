@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TimediaryFragment timediaryFragment;
     private TodoFragment todoFragment;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    //private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /* Set default fragment */
         openFragment(timediaryFragment);
         initLayout();
+
     }
 
     class MyItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
-
         private final String TAG = MyItemSelectedListener.class.getSimpleName();
 
         @Override
@@ -145,13 +145,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void openFragment(final Fragment fragment) {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,44 +156,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     //Navigation Drawer item select
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        try {
+            switch (item.getItemId()) {
+                case R.id.navigation_drawer_setting:
+                    Toast.makeText(this, "설정 - 미구현", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.navigation_drawer_sync:
+                    Toast.makeText(this, "동기화 - 미구현", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.navigation_drawer_item3:
+                    Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.navigation_drawer_logout:
+                    AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
+                    break;
 
-        switch (item.getItemId()) {
-            case R.id.navigation_drawer_setting:
-                Toast.makeText(this, "설정 - 미구현", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.navigation_drawer_sync:
-                Toast.makeText(this, "동기화 - 미구현", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.navigation_drawer_item3:
-                Toast.makeText(this, "미구현", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.navigation_drawer_logout:
-                AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
-                break;
+                case R.id.navigation_drawer_delete:
+                    AuthUI.getInstance().delete(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    Toast.makeText(this, "계정삭제", Toast.LENGTH_SHORT).show();
+                    break;
 
-            case R.id.navigation_drawer_delete:
-                AuthUI.getInstance().delete(this).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                Toast.makeText(this, "계정삭제", Toast.LENGTH_SHORT).show();
-                break;
+                default:
+                    break;
+            }
+        } catch (NullPointerException e) {
+            Log.d("TryCatch", "Occurred NullPointerException");
+            e.printStackTrace();
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return false;
     }
@@ -229,23 +232,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Navigation Drawer init
     private void initLayout() {
-//        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-        //TODO Toolbar Title Text - switch로 fragment마다 다르게
-        //getSupportActionBar().setTitle("");
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
         drawerLayout = findViewById(R.id.dl_main_drawer_root);
         NavigationView navigationView = findViewById(R.id.nv_main_navigation_root);
         View headerView = navigationView.getHeaderView(0);
 
         //Set Component for User Info
-        ImageView nav_header_user_Profile = headerView.findViewById(R.id.nav_header_main_user_Profile);
-        TextView nav_header_user_ID = headerView.findViewById(R.id.nav_header_main_user_ID);
-        TextView nav_header_user_Account = headerView.findViewById(R.id.nav_header_main_user_Account);
+        ImageView navHeaderUserProfile = headerView.findViewById(R.id.nav_header_main_user_Profile);
+        TextView navHeaderUserID = headerView.findViewById(R.id.nav_header_main_user_ID);
+        TextView navHeaderUserAccount = headerView.findViewById(R.id.nav_header_main_user_Account);
 
         if (fbUser != null) {
 
@@ -271,20 +266,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 mThread.join();
                 //Set User Profile
-                nav_header_user_Profile.setImageBitmap(bitmap);
+                navHeaderUserProfile.setImageBitmap(bitmap);
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
             }
 
             //Set User ID
-            nav_header_user_ID.setText(fbUser.getDisplayName());
+            navHeaderUserID.setText(fbUser.getDisplayName());
             //Set User Email Account
             if (fbUser.isEmailVerified())
-                nav_header_user_Account.setText(fbUser.getEmail());
+                navHeaderUserAccount.setText(fbUser.getEmail());
         } else {
-            nav_header_user_Profile.setImageURI(null);
-            nav_header_user_ID.setText(R.string.offline);
-            nav_header_user_Account.setText(null);
+            navHeaderUserProfile.setImageURI(null);
+            navHeaderUserID.setText(R.string.offline);
+            navHeaderUserAccount.setText(null);
         }
 
         drawerToggle = new ActionBarDrawerToggle(

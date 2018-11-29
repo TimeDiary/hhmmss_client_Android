@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -67,6 +68,9 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
     private Button mAddCalendarButton;
     ProgressDialog mProgress;
 
+    /*CalendarSetDialogFragment calendarSetDialogFragment;
+    FragmentManager fragmentManager;*/
+
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
@@ -74,6 +78,8 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {CalendarScopes.CALENDAR};
+
+    CalendarEvent calendarEvent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanseState) {
 
         View view = inflater.inflate(R.layout.frag_calendar, container, false);
+        final CalendarEvent calendarEvent = new CalendarEvent();
 
         mAddCalendarButton = view.findViewById(R.id.button_main_add_calendar);
         mAddEventButton = view.findViewById(R.id.button_main_add_event);
@@ -144,11 +151,19 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                 Arrays.asList(SCOPES)
         ).setBackOff(new ExponentialBackOff()); // I/O 예외 상황을 대비해서 백오프 정책 사용
 
+        Button temp = view.findViewById(R.id.temp_btn);
+        temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                CalendarSetDialogFragment calendarSetDialogFragment = new CalendarSetDialogFragment();
+                calendarSetDialogFragment.show(fragmentManager, "");
+            }
+        });
         return view;
     }
 
     private String getResultsFromApi() {
-
         if (!isGooglePlayServicesAvailable()) { // Google Play Services를 사용할 수 없는 경우
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) { // 유효한 Google 계정이 선택되어 있지 않은 경우
@@ -162,16 +177,15 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         return null;
     }
 
+    //Google Play Service를 사용 가능한지 조사하는 함수
     private boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         final int connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(getActivity());
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
-    /*
-     * Google Play Services 업데이트로 해결가능하다면 사용자가 최신 버전으로 업데이트하도록 유도하기위해
-     * 대화상자를 보여줌.
-     */
+
+    // Google Play Services 업데이트로 해결가능하다면 업데이트하도록 유도하기위해 대화상자를 보여줌
     private void acquireGooglePlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         final int connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(getActivity());
@@ -181,9 +195,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         }
     }
 
-    /*
-     * 안드로이드 디바이스에 Google Play Services가 설치 안되어 있거나 오래된 버전인 경우 보여주는 대화상자
-     */
+    // 디바이스에 Google Play Services가 미설치 또는 오래된 버전인 경우 보여주는 대화상자
     void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode
     ) {
@@ -194,12 +206,11 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                 REQUEST_GOOGLE_PLAY_SERVICES
         );
         dialog.show();
-    }
 
+    }
 
     /*
      * Google Calendar API의 자격 증명( credentials ) 에 사용할 구글 계정을 설정한다.
-     *
      * 전에 사용자가 구글 계정을 선택한 적이 없다면 다이얼로그에서 사용자를 선택하도록 한다.
      * GET_ACCOUNTS 퍼미션이 필요하다.
      */
@@ -234,11 +245,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         }
     }
 
-
-    /*
-     * 구글 플레이 서비스 업데이트 다이얼로그, 구글 계정 선택 다이얼로그, 인증 다이얼로그에서 되돌아올때 호출된다.
-     */
-
+    // 구글 플레이 서비스 업데이트 다이얼로그, 구글 계정 선택 다이얼로그, 인증 다이얼로그에서 되돌아올때 호출된다.
     @Override
     public void onActivityResult(
             int requestCode,  // onActivityResult가 호출되었을 때 요청 코드로 요청을 구분
@@ -249,8 +256,8 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != getActivity().RESULT_OK) {
-                    mStatusText.setText(" 앱을 실행시키려면 구글 플레이 서비스가 필요합니다."
-                            + "구글 플레이 서비스를 설치 후 다시 실행하세요.");
+                    mStatusText.setText(" 앱을 실행시키려면 구글 플레이 서비스가 필요합니다.\n" +
+                            "구글 플레이 서비스를 설치 후 다시 실행하세요.");
                 } else {
                     getResultsFromApi();
                 }
@@ -273,12 +280,13 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                     getResultsFromApi();
                 }
                 break;
+            default:
+                Log.d("onActivityResult", "default");
+                break;
         }
     }
 
-    /*
-     * Android 6.0 (API 23) 이상에서 런타임 권한 요청시 결과를 리턴받음
-     */
+    // Android 6.0 (API 23) 이상에서 런타임 권한 요청시 결과를 리턴받음
     @Override
     public void onRequestPermissionsResult(
             int requestCode,  //requestPermissions(android.app.Activity, String, int, String[])에서 전달된 요청 코드
@@ -290,27 +298,21 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    /*
-     * EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 승인한 경우 호출된다.
-     */
+    // EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 승인한 경우 호출된다.
     @Override
     public void onPermissionsGranted(int requestCode, List<String> requestPermissionList) {
 
         // 아무일도 하지 않음
     }
 
-    /*
-     * EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 거부한 경우 호출된다.
-     */
+    // EasyPermissions 라이브러리를 사용하여 요청한 권한을 사용자가 거부한 경우 호출된다.
     @Override
     public void onPermissionsDenied(int requestCode, List<String> requestPermissionList) {
 
         // 아무일도 하지 않음
     }
 
-    /*
-     * 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
-     */
+    // 안드로이드 디바이스가 인터넷 연결되어 있는지 확인한다. 연결되어 있다면 True 리턴, 아니면 False 리턴
     private boolean isDeviceOnline() {
 
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -319,9 +321,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-    /*
-     * 캘린더 이름에 대응하는 캘린더 ID를 리턴
-     */
+    // 캘린더 이름에 대응하는 캘린더 ID를 리턴
     private String getCalendarID(String calendarTitle) {
 
         String id = null;
@@ -348,9 +348,8 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         return id;
     }
 
-    /*
-     * 비동기적으로 Google Calendar API 호출
-     */
+
+    // 비동기적으로 Google Calendar API 호출
     private class MakeRequestTask extends AsyncTask<Void, Void, String> {
 
         private Exception mLastError = null;
@@ -380,9 +379,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         }
 
 
-        /*
-         * 백그라운드에서 Google Calendar API 호출 처리
-         */
+        // 백그라운드에서 Google Calendar API 호출 처리
         @Override
         protected String doInBackground(Void... params) {
             try {
@@ -401,9 +398,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
             return null;
         }
 
-        /*
-         * CalendarTitle 이름의 캘린더에서 10개의 이벤트를 가져와 리턴
-         */
+        // CalendarTitle 이름의 캘린더에서 10개의 이벤트를 가져와 리턴
         private String getEvent() throws IOException {
             DateTime now = new DateTime(System.currentTimeMillis());
             String calendarID = getCalendarID("CalendarTitle");
@@ -428,15 +423,12 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
             return eventStrings.size() + "개의 데이터를 가져왔습니다.";
         }
 
-        /*
-         * 선택되어 있는 Google 계정에 새 캘린더를 추가한다.
-         */
+        // 선택되어 있는 Google 계정에 새 캘린더를 추가한다.
         private String createCalendar() throws IOException {
 
             String ids = getCalendarID("CalendarTitle");
 
             if (ids != null) {
-
                 return "이미 캘린더가 생성되어 있습니다. ";
             }
 
@@ -536,9 +528,6 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                     .setDateTime(endDateTime)
                     .setTimeZone("Asia/Seoul");
             event.setEnd(end);
-
-            //String[] recurrence = new String[]{"RRULE:FREQ=DAILY;COUNT=2"};
-            //event.setRecurrence(Arrays.asList(recurrence));
 
             try {
                 event = mService.events().insert(calendarID, event).execute();

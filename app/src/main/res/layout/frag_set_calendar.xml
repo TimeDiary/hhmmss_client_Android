@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/set_calendar_schedule_cancel"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:contentDescription="@string/contentDescription"
+                android:src="@drawable/ic_clear" />
+
+            <Button
+                android:id="@+id/set_calendar_schedule_save"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/roundbutton"
+                android:text="@string/schedule_save"
+                android:textColor="@color/MainBackground"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/set_calendar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:focusable="true"
+            android:hint="@string/setTitle"
+            android:inputType="text"
+            android:textCursorDrawable="@null"
+            android:textSize="30sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/set_calendar_divider" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/ic_account" />
+
+                <Button
+                    android:id="@+id/set_calendar_account"
+                    android:layout_height="25dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="9"
+                    android:background="@null"
+                    android:text="@string/account"
+                    android:textAlignment="viewStart"
+                    android:textColor="?android:textColorHint"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/set_calendar_divider" />
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/ic_personadd" />
+
+                <EditText
+                    android:id="@+id/set_calendar_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="9"
+                    android:background="@null"
+                    android:hint="@string/other" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/set_calendar_divider" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:divider="@color/set_calendar_divider"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/ic_location" />
+
+                <EditText
+                    android:id="@+id/set_calendar_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="9"
+                    android:background="@null"
+                    android:hint="@string/location" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/set_calendar_divider" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/ic_memo" />
+
+                <EditText
+                    android:id="@+id/set_calendar_memo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="9"
+                    android:background="@null"
+                    android:hint="@string/memo" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/set_calendar_divider" />
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>

@@ -33,7 +33,7 @@
             android:id="@+id/navigation_drawer_delete"
             android:icon="@drawable/ic_logdel"
             android:title="@string/naviagtion_drawer_delete" />
-
+        
     </group>
 
 </menu>

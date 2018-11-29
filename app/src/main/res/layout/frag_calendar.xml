@@ -1,102 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
-    >
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="298dp" />
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"-->
 
-    <TableLayout
+
+    <CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="10">
 
-        <TableRow
-            android:layout_weight="1">
+        <TextView
+            android:id="@+id/left_textView"
+            android:layout_height="match_parent"
+            android:layout_weight="7" />
+
+        <ScrollView
+            android:layout_height="match_parent"
+            android:layout_weight="3">
 
             <TextView
-                android:layout_width="15dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="Left" />
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:text="Right"
-                android:layout_width="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-                <LinearLayout
-                    android:layout_width="250dp"
-                    android:layout_height="57dp"
-                    android:orientation="vertical"
-                    android:layout_margin="20dp"
-                    ></LinearLayout>
+        </ScrollView>
+        <Button
+            android:id="@+id/temp_btn"
+            android:text="asdasd"
+            />
+    </TableRow>
 
 
-            </LinearLayout>
-        </TableRow>
-    </TableLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!--temp-->
+    <Button
+        android:id="@+id/button_main_add_calendar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:orientation="vertical">
+        android:text="Add Calendar"
+        android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/textview_main_status"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="40"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text=""/>
-        <TextView
-            android:id="@+id/textview_main_result"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text=""/>
+    <Button
+        android:id="@+id/button_main_add_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Event"
+        android:visibility="invisible" />
 
-        <Button
-            android:id="@+id/button_main_add_calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Calendar" />
+    <Button
+        android:id="@+id/button_main_get_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Event"
+        android:visibility="invisible" />
 
-        <Button
-            android:id="@+id/button_main_add_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Event" />
+    <TextView
+        android:id="@+id/textview_main_status"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="40"
+        android:text=""
+        android:visibility="invisible" />
 
-        <Button
-            android:id="@+id/button_main_get_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Get Event" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textview_main_result"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="50"
+        android:text=""
+        android:visibility="invisible" />
+    <!--temp-->
+
 </LinearLayout>
+
+
+    <!--
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_main_status"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="40"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text=""/>
+            <TextView
+                android:id="@+id/textview_main_result"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text=""/>
+
+            <Button
+                android:id="@+id/button_main_add_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Calendar" />
+
+            <Button
+                android:id="@+id/button_main_add_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Event" />
+
+            <Button
+                android:id="@+id/button_main_get_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get Event" />
+        </LinearLayout>
+    -->
+
+
 
 
