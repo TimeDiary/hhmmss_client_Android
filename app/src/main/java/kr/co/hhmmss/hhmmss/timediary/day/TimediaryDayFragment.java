@@ -31,6 +31,7 @@ public class TimediaryDayFragment extends Fragment {
         context = rootView.getContext();
 
         timediaryDayRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_day_list);
+        timediaryDayRecyclerView.setHasFixedSize(true);
 
         // [START set_recyclerView]
         // Initialize timediaryDayList.

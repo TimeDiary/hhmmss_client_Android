@@ -76,14 +76,7 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
         ratingView.setGravity(Gravity.CENTER);
         // [END set_views_into_list]
 
-//
-//
-//        viewHolder.timeView.setText(mList.get(position).getTime());
-//        ((TimediaryDayViewHolder) viewHolder).timeView.setGravity(Gravity.CENTER);
-//        ((TimediaryDayViewHolder) viewHolder).commentView.setText(mList.get(position).getComment());
-//        ((TimediaryDayViewHolder) viewHolder).timeView.setGravity(Gravity.CENTER);
-//        ((TimediaryDayViewHolder) viewHolder).ratingBar.setRating(mList.get(position).getRating());
-//        viewHolder.timeView.setGravity(Gravity.CENTER);
+
 
         //TODO
     }
