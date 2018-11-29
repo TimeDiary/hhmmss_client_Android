@@ -6,26 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/MainBackground">
 
-    <!--Bottom Navigation-->
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/BottomNavigationBackground"
-        app:itemIconTint="@color/BottomNavigationItemTextColor"
-        app:itemTextColor="@color/BottomNavigationItemTextColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/dl_main_drawer_root"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:openDrawer="start">
 
@@ -46,7 +36,8 @@
             <FrameLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/maincontent_bottom_margin" />
         </LinearLayout>
 
 
@@ -62,4 +53,16 @@
             app:menu="@menu/navigation_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
+
+    <!--Bottom Navigation-->
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BottomNavigationBackground"
+        app:itemIconTint="@color/BottomNavigationItemTextColor"
+        app:itemTextColor="@color/BottomNavigationItemTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation" />
 </android.support.constraint.ConstraintLayout>

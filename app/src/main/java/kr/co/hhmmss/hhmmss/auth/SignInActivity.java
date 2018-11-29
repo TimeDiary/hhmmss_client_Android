@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ import kr.co.hhmmss.hhmmss.R;
 /**
  * Demonstrates retrieving an ID token for the current Google user.
  */
-public class SignInActivity extends BaseActivity implements
+public class SignInActivity extends AppCompatActivity implements
         View.OnClickListener {
 
     private static final String TAG = "SignInActivity";
@@ -104,13 +105,12 @@ public class SignInActivity extends BaseActivity implements
             }
         }
     }
-
     // [END onactivityresult]
-// [START auth_with_google]
+
+    // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         // [START_EXCLUDE silent]
-        showProgressDialog();
         // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -131,7 +131,6 @@ public class SignInActivity extends BaseActivity implements
                         }
 
                         // [START_EXCLUDE]
-                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
@@ -174,7 +173,6 @@ public class SignInActivity extends BaseActivity implements
     }
 
     private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
