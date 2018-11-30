@@ -115,4 +115,5 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
     }
 
 
+
 }
