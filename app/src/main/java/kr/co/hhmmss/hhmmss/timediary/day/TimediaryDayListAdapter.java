@@ -16,6 +16,22 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
     private ArrayList<TimediaryDay> timediaryDays;
     private View timediaryDayView;
 
+    private OnItemClickListener listener;
+
+    // [START define_the_listener_interface]
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+
+    }
+    // [END define_the_listener_interface]
+
+
+    // [START define_the_method_that_allows_the_parent_activity_or_fragment_to_define_the_listener]
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+    // [END define_the_method_that_allows_the_parent_activity_or_fragment_to_define_the_listener]
+
 
     public TimediaryDayListAdapter(ArrayList<TimediaryDay> list) {
 
@@ -23,7 +39,7 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
     }
 
 
-    public static class TimediaryDayViewHolder extends RecyclerView.ViewHolder {
+    public class TimediaryDayViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView timeView;
         protected TextView commentView;
@@ -36,6 +52,19 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
             this.timeView = view.findViewById(R.id.textview_recyclerview_time);
             this.commentView = view.findViewById(R.id.textview_recyclerview_comment);
             this.ratingView = view.findViewById(R.id.textview_recyclerview_rating);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Triggers click upwards to the adapter on click
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
+                }
+            });
 
 
         }
@@ -75,7 +104,6 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
         ratingView.setText(timediaryDay.getRating());
         ratingView.setGravity(Gravity.CENTER);
         // [END set_views_into_list]
-
 
 
         //TODO

@@ -3,12 +3,14 @@ package kr.co.hhmmss.hhmmss.timediary.day;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,16 @@ public class TimediaryDayFragment extends Fragment {
         /* Test Data */
         // Create adapter passing in the sample timediary data
         adapter = new TimediaryDayListAdapter(timediaryDayArrayList);
+        // Set OnItemClickListener on the adapter
+        adapter.setOnItemClickListener(new TimediaryDayListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                TextView timeView = (TextView) itemView.findViewById(R.id.textview_recyclerview_time);
+                String time = (String) timeView.getText();
+                Snackbar.make(itemView, "time: " + time + " clicked...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
         // Attach the adapter to the recyclerview to populate items
         timediaryDayRecyclerView.setAdapter(adapter);
         // Set layout manager to position the items
