@@ -6,9 +6,10 @@
     <!--Navigation Drawer-->
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+
     <string name="naviagtion_drawer_logout">Logout</string>
     <string name="naviagtion_drawer_delete">Delete Account</string>
-
+    <string name="offline">오프라인 상태입니다.</string>
 
     <!--SignIn Activity String-->
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
