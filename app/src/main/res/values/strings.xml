@@ -155,5 +155,10 @@
     <string name="tab_stat">Stat</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="timediary_day_save"><![CDATA[Save]]></string>
+    <string name="contentDescription"><![CDATA[<Content Description>]]></string>
+    <string name="timediary_dialog_day_hint"><![CDATA[<Day HInt>]]></string>
+    <string name="timediary_dialog_time_hint"><![CDATA[<Time Hint>]]></string>
+    <string name="timediary_dialog_comment_hint"><![CDATA[<comment hint>]]></string>
 
 </resources>
