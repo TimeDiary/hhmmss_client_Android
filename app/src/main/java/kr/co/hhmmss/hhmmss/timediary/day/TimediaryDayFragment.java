@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,6 +48,12 @@ public class TimediaryDayFragment extends Fragment {
         adapter.setOnItemClickListener(new TimediaryDayListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
+                // [START open_timediaryDayDialogFragment]
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                TimediaryDayDialogFragment timediaryDayDialogFragment = new TimediaryDayDialogFragment();
+                timediaryDayDialogFragment.show(fragmentManager, "TimediaryDayDialog");
+
+                // [END open_timediaryDayDialogFragment]
                 TextView timeView = (TextView) itemView.findViewById(R.id.textview_recyclerview_time);
                 String time = (String) timeView.getText();
                 Snackbar.make(itemView, "time: " + time + " clicked...", Snackbar.LENGTH_LONG)
@@ -57,10 +64,6 @@ public class TimediaryDayFragment extends Fragment {
         timediaryDayRecyclerView.setAdapter(adapter);
         // Set layout manager to position the items
         timediaryDayRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        // [END set_recyclerView[
-
-//        timediaryDayArrayList.add(new TimediaryDay("09", "Test0", (float) 3.5));
-
         // [END set_recyclerView]
 
 
