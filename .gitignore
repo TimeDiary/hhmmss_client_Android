@@ -423,3 +423,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/linux,macos,python,django,android,pycharm,windows,virtualenv
 
 google-services.json
+app/client_secret_816382087562-2k0hklkdkc5a3ke8rbepeva59r1on6ch.apps.googleusercontent.com.json

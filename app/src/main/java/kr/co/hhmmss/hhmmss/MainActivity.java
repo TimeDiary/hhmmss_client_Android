@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import kr.co.hhmmss.hhmmss.auth.SignInActivity;
+import kr.co.hhmmss.hhmmss.timediary.TimediaryFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
