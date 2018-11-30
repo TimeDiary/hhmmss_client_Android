@@ -22,7 +22,6 @@ public class TimediaryDayDialogFragment extends DialogFragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View dialogView = inflater.inflate(R.layout.frag_dialog_timediary_day, container);
-
         cancelButton = dialogView.findViewById(R.id.button_cancel);
         saveButton = dialogView.findViewById(R.id.button_save);
         dayTextView = dialogView.findViewById(R.id.textview_day);

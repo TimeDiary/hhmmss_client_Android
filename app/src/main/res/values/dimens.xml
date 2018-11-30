@@ -25,9 +25,9 @@
     <dimen name="timediary_dialog_button_margin">10dp</dimen>
     <dimen name="timediary_dialog_buttons_height">70dp</dimen>
     <dimen name="timediary_dialog_layout_margin">5dp</dimen>
-    <dimen name="timediary_dialog_day_height">@dimen/wrap_content</dimen>
-    <dimen name="timediary_dialog_time_height">@dimen/wrap_content</dimen>
-    <dimen name="timediary_dialog_comment_height">200dp</dimen>
+    <dimen name="timediary_dialog_day_height">70dp</dimen>
+    <dimen name="timediary_dialog_time_height">70dp</dimen>
+    <dimen name="timediary_dialog_comment_height">150dp</dimen>
     <dimen name="timediary_dialog_rating_height">70dp</dimen>
     <dimen name="timediary_dialog_day_title_width">100dp</dimen>
     <dimen name="timediary_dialog_content_margin">10dp</dimen>

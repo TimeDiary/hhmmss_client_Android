@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,8 +25,10 @@ public class TimediaryDayFragment extends Fragment {
     private RecyclerView timediaryDayRecyclerView;
     private Context context;
     private ArrayList<TimediaryDay> timediaryDayArrayList;
+    private TimediaryDayDialogFragment timediaryDayDialogFragment;
 
 
+    // [START onCreateView]
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +53,8 @@ public class TimediaryDayFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 // [START open_timediaryDayDialogFragment]
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                TimediaryDayDialogFragment timediaryDayDialogFragment = new TimediaryDayDialogFragment();
+                timediaryDayDialogFragment = new TimediaryDayDialogFragment();
+                timediaryDayDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Material_Light);
                 timediaryDayDialogFragment.show(fragmentManager, "TimediaryDayDialog");
 
                 // [END open_timediaryDayDialogFragment]
@@ -70,6 +74,9 @@ public class TimediaryDayFragment extends Fragment {
         return rootView;
 
     }
+    // [END onCreateView]
+
+
 
 
     public void addTimediaryDayList(ArrayList<TimediaryDay> list, TimediaryDayListAdapter adapter, TimediaryDay timediaryDay) {
