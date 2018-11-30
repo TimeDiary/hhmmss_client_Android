@@ -1,4 +1,4 @@
-package kr.co.hhmmss.hhmmss;
+package kr.co.hhmmss.hhmmss.timediary;
 
 
 import android.os.Bundle;
@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.hhmmss.hhmmss.R;
 import kr.co.hhmmss.hhmmss.timediary.day.TimediaryDayFragment;
 import kr.co.hhmmss.hhmmss.timediary.stat.TimediaryStatFragment;
 import kr.co.hhmmss.hhmmss.timediary.week.TimediaryWeekFragment;

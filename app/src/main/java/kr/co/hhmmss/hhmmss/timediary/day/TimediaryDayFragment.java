@@ -58,7 +58,7 @@ public class TimediaryDayFragment extends Fragment {
                 // [START set_arguments_from_recyclerview]
                 if (position != RecyclerView.NO_POSITION) {
                     TimediaryDay clickedTimediaryDay = timediaryDayArrayList.get(position);
-                    args.putString("day", "testDay");
+                    args.putString("date", "testDate");
                     args.putString("time", clickedTimediaryDay.getTime());
                     args.putString("comment", clickedTimediaryDay.getComment());
                     args.putString("rating", clickedTimediaryDay.getRating());

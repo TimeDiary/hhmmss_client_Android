@@ -30,7 +30,7 @@ public class TimediaryDayDialogFragment extends DialogFragment {
     @Nullable
     private Bundle mArgs;
     @Nullable
-    private String mDay;
+    private String mDate;
     @Nullable
     private String mTime;
     @Nullable
@@ -44,7 +44,7 @@ public class TimediaryDayDialogFragment extends DialogFragment {
         // [START get_arguments_form_recyclerview]
         mArgs = getArguments();
         if (mArgs != null) {
-            mDay = mArgs.getString("day");
+            mDate = mArgs.getString("date");
             mTime = mArgs.getString("time");
             mComment = mArgs.getString("comment");
             mRating = mArgs.getString("rating");
@@ -67,7 +67,7 @@ public class TimediaryDayDialogFragment extends DialogFragment {
         // [END set_views]
 
         // [START set_data]
-        dayEditText.setText(mDay);
+        dayEditText.setText(mDate);
         timeEditText.setText(mTime);
         commentEditText.setText(mComment);
         ratingEditText.setText(mRating);
