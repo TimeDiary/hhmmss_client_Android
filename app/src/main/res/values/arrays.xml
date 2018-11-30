@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sample_date">
+        <item>181110</item>
+        <item>181111</item>
+        <item>181112</item>
+        <item>181113</item>
+        <item>181114</item>
+        <item>181115</item>
+        <item>181116</item>
+        <item>181117</item>
+        <item>181118</item>
+        <item>181119</item>
+        <item>181120</item>
+    </string-array>
+</resources>

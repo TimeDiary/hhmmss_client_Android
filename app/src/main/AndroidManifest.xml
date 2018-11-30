@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="kr.co.hhmmss.hhmmss">
 
-    <!--README-->
-    <!--Line:13 android:allowBackup="true"-->
-    <!--Line:14 android:fullBackupContent="@xml/backup_descriptor"-->
-    <!--Line:20 tools:ignore="GoogleAppIndexingWarning"-->
-    <!--Manifest 권고로 인한 속성 추가, 어떤 역할인지는 모르므로 주의-->
-
+    <!-- README -->
+    <!-- Line:13 android:allowBackup="true" -->
+    <!-- Line:14 android:fullBackupContent="@xml/backup_descriptor" -->
+    <!-- Line:20 tools:ignore="GoogleAppIndexingWarning" -->
+    <!-- Manifest 권고로 인한 속성 추가, 어떤 역할인지는 모르므로 주의 -->
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -18,12 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".auth.BaseActivity" />
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".auth.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -15,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -120,19 +119,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (menuItem.getItemId()) {
                 case R.id.Calendar:
                     fragment = calendarFragment;
-                    Log.d(TAG, fragment.toString() + " called.");
                     break;
                 case R.id.TimeDiary:
                     fragment = timediaryFragment;
-                    Log.d(TAG, fragment.toString() + " called.");
                     break;
                 case R.id.ToDo:
                     fragment = todoFragment;
-                    Log.d(TAG, fragment.toString() + " called.");
                     break;
                 default:
                     fragment = timediaryFragment;
-                    Log.d(TAG, fragment.toString() + " called.");
             }
             openFragment(fragment);
 
@@ -232,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        //TODO Toolbar Title Text - switch로 fragment마다 다르게
         //getSupportActionBar().setTitle("");
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
