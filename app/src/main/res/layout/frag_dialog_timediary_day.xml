@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintlayout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/timediary_dialog_buttons_height"
+        android:layout_margin="@dimen/timediary_dialog_layout_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="10dp">
+
+        <ImageButton
+            android:id="@+id/button_cancel"
+            android:layout_width="@dimen/timediary_dialog_cancel_button_width"
+            android:layout_height="@dimen/timediary_dialog_cancel_button_height"
+            android:layout_margin="@dimen/timediary_dialog_button_margin"
+            android:background="@null"
+            android:src="@drawable/ic_clear"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/button_save"
+            android:layout_width="@dimen/timediary_dialog_save_button_width"
+            android:layout_height="@dimen/timediary_dialog_save_button_height"
+            android:layout_margin="@dimen/timediary_dialog_button_margin"
+            android:src="@mipmap/ic_savebutton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintlayout_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/timediary_dialog_layout_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_buttons">
+        <!--[START day_view]-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintlayout_day"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/timediary_dialog_day_height"
+            android:layout_margin="@dimen/timediary_dialog_layout_margin"
+            android:background="@drawable/timediary_dialog_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="10dp">
+
+            <TextView
+
+                android:id="@+id/textview_day"
+                android:layout_width="@dimen/timediary_dialog_day_title_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:gravity="center"
+                android:text="DAY: "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edittext_day"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edittext_day"
+                android:layout_width="@dimen/timediary_dialog_day_content_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:hint="@string/timediary_dialog_day_hint"
+                android:inputType="date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textview_day"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+        <!--[END day_view]-->
+
+        <!--[START time_view]-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintlayout_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/timediary_dialog_time_height"
+            android:layout_margin="@dimen/timediary_dialog_layout_margin"
+            android:background="@drawable/timediary_dialog_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintlayout_day"
+            tools:layout_editor_absoluteX="10dp">
+
+            <TextView
+                android:id="@+id/textview_time"
+                android:layout_width="@dimen/timediary_dialog_time_title_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:gravity="center"
+                android:text="Time: "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edittext_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/edittext_time"
+                android:layout_width="@dimen/timediary_dialog_time_content_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:hint="@string/timediary_dialog_time_hint"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textview_time"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+        <!--[END time_view]-->
+
+        <!--[START comment_view]-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintlayout_comment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/timediary_dialog_comment_height"
+            android:layout_margin="@dimen/timediary_dialog_layout_margin"
+            android:background="@drawable/timediary_dialog_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintlayout_time"
+            tools:layout_editor_absoluteX="10dp">
+
+            <TextView
+                android:id="@+id/textview_comment"
+                android:layout_width="@dimen/timediary_dialog_comment_title_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:gravity="center"
+                android:text="Comment: "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edittext_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/edittext_comment"
+                android:layout_width="@dimen/timediary_dialog_comment_content_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:hint="@string/timediary_dialog_comment_hint"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textview_comment"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+        <!--[END comment_view]-->
+
+        <!--[START rating_view]-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintlayout_rating"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/timediary_dialog_rating_height"
+            android:layout_margin="@dimen/timediary_dialog_layout_margin"
+            android:background="@drawable/timediary_dialog_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintlayout_comment"
+            tools:layout_editor_absoluteX="10dp">
+
+            <TextView
+                android:id="@+id/textview_rating"
+                android:layout_width="@dimen/timediary_dialog_rating_title_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:gravity="center"
+                android:text="Rating: "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edittext_rating"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/edittext_rating"
+                android:layout_width="@dimen/timediary_dialog_rating_content_width"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/timediary_dialog_content_margin"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textview_rating"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+        <!--[END rating_view]-->
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

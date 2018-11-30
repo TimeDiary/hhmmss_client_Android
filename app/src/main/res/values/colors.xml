@@ -11,6 +11,8 @@
     <color name="MainBackground">#FAFAFA</color>
     <color name="BottomNavigationBackground">#61BBFF</color>
     <color name="BottomNavigationItemTextColor">#FFFFFF</color>
+    <color name="timediary_dialog_background_color">#FFFFFF</color>
+    <color name="timediary_dialog_border_color">#000000</color>
 
 
 </resources>
