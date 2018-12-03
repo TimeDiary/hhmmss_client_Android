@@ -19,7 +19,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,30 +80,29 @@ public class TimediaryManager {
                 });
     }
 
-    public Map<String, TimediaryDoc> get(String date) {
-        final Map<String, TimediaryDoc> timediaryDocMap = new HashMap<>();
 
-        timediaryCollectionRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot doc : task.getResult()) {
-                                Log.d(TAG, doc.getId() + " => " + doc.getData());
-                                TimediaryDoc timediary = doc.toObject(TimediaryDoc.class);
-                                timediaryDocMap.put(timediary.getTime(), timediary);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting Timediary docs: ", task.getException());
-                        }
-                    }
-                });
-        return timediaryDocMap;
+    public List<TimediaryDoc> get(String date) {
+        System.out.println("get TimediaryDoc...");
+        List<TimediaryDoc> timediaryDocs;
+        MyOnCompleteListener listener = new MyOnCompleteListener();
+
+        timediaryCollectionRef
+                .whereEqualTo("date", date)
+                .orderBy("time")
+                .get()
+                .addOnCompleteListener(listener);
+        timediaryDocs = listener.getTimediaryDocs();
+        System.out.println("return TimediaryDoc...");
+        return timediaryDocs;
     }
 
     public TimediaryDoc get(String date, String time) {
+        // TODO: Edit like other overloading method.
         final TimediaryDoc[] timediary = new TimediaryDoc[1];
-        timediaryCollectionRef.get()
+        timediaryCollectionRef
+                .whereEqualTo("date", date)
+                .whereEqualTo("time", time)
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -151,5 +149,29 @@ public class TimediaryManager {
     public void delete(final String date, final String time) {
 
         // TODO
+    }
+
+
+    protected class MyOnCompleteListener implements OnCompleteListener<QuerySnapshot> {
+
+        List<TimediaryDoc> timediaryDocs = new ArrayList<>();
+
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot doc : task.getResult()) {
+                    Log.d(TAG, doc.getId() + " ==> " + doc.getData());
+
+                    timediaryDocs.add(doc.toObject(TimediaryDoc.class));
+                }
+            } else {
+                Log.d(TAG, "Error getting Timediary docs: ", task.getException());
+            }
+        }
+
+        public List<TimediaryDoc> getTimediaryDocs() {
+            System.out.println("getTimediaryDocs called.");
+            return this.timediaryDocs;
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,20 +16,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import kr.co.hhmmss.hhmmss.R;
+import kr.co.hhmmss.hhmmss.timediary.TimediaryDoc;
+import kr.co.hhmmss.hhmmss.timediary.TimediaryManager;
 
 public class TimediaryDayFragment extends Fragment {
 
     // View
-    private TimediaryDayListAdapter adapter;
-    private RecyclerView timediaryDayRecyclerView;
+    private TimediaryDocListAdapter adapter;
+    private RecyclerView timediaryDocRecyclerView;
     private Context context;
-    private ArrayList<TimediaryDay> timediaryDayArrayList;
-    private TimediaryDayDialogFragment timediaryDayDialogFragment;
+    //    private ArrayList<TimediaryDay> timediaryDocArrayList;
+    private TimediaryDayDialogFragment timediaryDocDialogFragment;
     private Bundle args;
 
+    // Timediary
+    private TimediaryManager timediaryManager;
+    private List<TimediaryDoc> timediaryDocs;
+
+    // [START onCreate]
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        timediaryManager = new TimediaryManager();
+    }
 
     // [START onCreateView]
     @Override
@@ -39,46 +53,51 @@ public class TimediaryDayFragment extends Fragment {
         context = rootView.getContext();
         args = new Bundle();
 
-        timediaryDayRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_day_list);
-        timediaryDayRecyclerView.setHasFixedSize(true);
+        timediaryDocRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_day_list);
+        timediaryDocRecyclerView.setHasFixedSize(true);
 
         // [START set_recyclerView]
-        // Initialize timediaryDayList.
-        timediaryDayArrayList = new ArrayList<>();
+        // Initialize timediaryDocList.
+//        timediaryDocArrayList = new ArrayList<>();
         /* Test Data */
-        timediaryDayArrayList = TimediaryDay.createSampleTimediaryDayList(9, 18, 1);
+        timediaryDocs = new ArrayList<>();
+        System.out.println("get");
+        timediaryDocs = timediaryManager.get("181110");
+        System.out.println(timediaryDocs);
+//        timediaryDocArrayList = TimediaryDay.createSampleTimediaryDayList(9, 18, 1);
         /* Test Data */
         // Create adapter passing in the sample timediary data
-        adapter = new TimediaryDayListAdapter(timediaryDayArrayList);
+//        adapter = new TimediaryDayListAdapter(timediaryDocs);
+        adapter = new TimediaryDocListAdapter(timediaryDocs);
         // Set OnItemClickListener on the adapter
-        adapter.setOnItemClickListener(new TimediaryDayListAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new TimediaryDocListAdapter.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemClick(View itemView, int position) {
                 // [START set_arguments_from_recyclerview]
                 if (position != RecyclerView.NO_POSITION) {
-                    TimediaryDay clickedTimediaryDay = timediaryDayArrayList.get(position);
+                    TimediaryDoc clickedTimediaryDay = timediaryDocs.get(position);
                     args.putString("date", "testDate");
                     args.putString("time", clickedTimediaryDay.getTime());
                     args.putString("comment", clickedTimediaryDay.getComment());
-                    args.putString("rating", clickedTimediaryDay.getRating());
+                    args.putFloat("rating", clickedTimediaryDay.getRating());
                 }
                 // [END set_arguments_from_recyclerview]
 
-                // [START open_timediaryDayDialogFragment]
+                // [START open_timediaryDocDialogFragment]
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                timediaryDayDialogFragment = new TimediaryDayDialogFragment();
-                timediaryDayDialogFragment.setArguments(args);
-                timediaryDayDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Material_Light);
-                timediaryDayDialogFragment.show(fragmentManager, "TimediaryDayDialog");
-                // [END open_timediaryDayDialogFragment]
+                timediaryDocDialogFragment = new TimediaryDayDialogFragment();
+                timediaryDocDialogFragment.setArguments(args);
+                timediaryDocDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Material_Light);
+                timediaryDocDialogFragment.show(fragmentManager, "TimediaryDayDialog");
+                // [END open_timediaryDocDialogFragment]
 
             }
         });
         // Attach the adapter to the recyclerview to populate items
-        timediaryDayRecyclerView.setAdapter(adapter);
+        timediaryDocRecyclerView.setAdapter(adapter);
         // Set layout manager to position the items
-        timediaryDayRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        timediaryDocRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         // [END set_recyclerView]
 
 
@@ -86,18 +105,6 @@ public class TimediaryDayFragment extends Fragment {
 
     }
     // [END onCreateView]
-
-
-    public void addTimediaryDayList(ArrayList<TimediaryDay> list, TimediaryDayListAdapter adapter, TimediaryDay timediaryDay) {
-        list.add(timediaryDay);
-        adapter.notifyDataSetChanged();
-
-    }
-
-    public void addTimediaryDayList(ArrayList<TimediaryDay> list, TimediaryDayListAdapter adapter, TimediaryDay timediaryDay, int position) {
-        list.add(position, timediaryDay);
-        adapter.notifyDataSetChanged();
-    }
 
 
 }

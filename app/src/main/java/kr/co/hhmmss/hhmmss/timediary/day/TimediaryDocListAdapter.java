@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import kr.co.hhmmss.hhmmss.R;
+import kr.co.hhmmss.hhmmss.timediary.TimediaryDoc;
 
-public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayListAdapter.TimediaryDayViewHolder> {
-    private ArrayList<TimediaryDay> timediaryDays;
+public class TimediaryDocListAdapter extends RecyclerView.Adapter<TimediaryDocListAdapter.TimediaryDocViewHolder> {
+    private List<TimediaryDoc> timediaryDocs;
     private View timediaryDayView;
 
     private OnItemClickListener listener;
@@ -33,21 +34,20 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
     // [END define_the_method_that_allows_the_parent_activity_or_fragment_to_define_the_listener]
 
 
-    public TimediaryDayListAdapter(ArrayList<TimediaryDay> list) {
+    public TimediaryDocListAdapter(List<TimediaryDoc> timediaryDocs) {
+        this.timediaryDocs = timediaryDocs;
 
-        this.timediaryDays = list;
     }
 
-
-    public class TimediaryDayViewHolder extends RecyclerView.ViewHolder {
+    public class TimediaryDocViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView timeView;
         protected TextView commentView;
         protected TextView ratingView;
 
-        TimediaryDayViewHolder(View view) {
+        TimediaryDocViewHolder(View view) {
             super(view);
-            System.out.println("New TimediaryDayViewHolder");
+            System.out.println("New TimediaryDocViewHolder");
 
             this.timeView = view.findViewById(R.id.textview_recyclerview_time);
             this.commentView = view.findViewById(R.id.textview_recyclerview_comment);
@@ -65,43 +65,49 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
                     }
                 }
             });
-
-
         }
     }
 
 
     @NonNull
     @Override
-    public TimediaryDayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TimediaryDocViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         System.out.println("onCreateViewHolder");
 
 
         timediaryDayView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_timediary_day, parent, false);
 
-        return new TimediaryDayViewHolder(timediaryDayView);
+        return new TimediaryDocViewHolder(timediaryDayView);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull TimediaryDayViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull TimediaryDocViewHolder viewHolder, int position) {
 
-        TimediaryDay timediaryDay = timediaryDays.get(position);
+        TimediaryDoc timediaryDoc = timediaryDocs.get(position);
 
         // [START set_views_into_list]
+        // DateView
+        System.out.println(timediaryDoc.getDate());
+//        TextView dateView = viewHolder.dateView;
+//        dateView.setText(timediaryDoc.getDate());
+//        dateView.setGravity(Gravity.CENTER);
         // TimeView
+        System.out.println(timediaryDoc.getTime());
         TextView timeView = viewHolder.timeView;
-        timeView.setText(timediaryDay.getTime());
+        timeView.setText(timediaryDoc.getTime());
         timeView.setGravity(Gravity.CENTER);
 
         // CommentView
+        System.out.println(timediaryDoc.getComment());
         TextView commentView = viewHolder.commentView;
-        commentView.setText(timediaryDay.getComment());
+        commentView.setText(timediaryDoc.getComment());
         commentView.setGravity(Gravity.CENTER);
 
         // RatingView
+        System.out.println(timediaryDoc.getRating());
         TextView ratingView = viewHolder.ratingView;
-        ratingView.setText(timediaryDay.getRating());
+        ratingView.setText(timediaryDoc.getRating().toString());
         ratingView.setGravity(Gravity.CENTER);
         // [END set_views_into_list]
 
@@ -111,9 +117,8 @@ public class TimediaryDayListAdapter extends RecyclerView.Adapter<TimediaryDayLi
 
     @Override
     public int getItemCount() {
-        return timediaryDays.size();
+        return timediaryDocs.size();
     }
-
 
 
 }
