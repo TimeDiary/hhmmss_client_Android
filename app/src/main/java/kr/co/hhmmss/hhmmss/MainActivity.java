@@ -98,17 +98,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
         }
 
-        BottomNavigationView bnv = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
         //actionBar.setDisplayShowTitleEnabled(false);
 
-        bnv.setOnNavigationItemSelectedListener(new MyItemSelectedListener());
+        bottomNavigationView.setOnNavigationItemSelectedListener(new MyItemSelectedListener());
         /* Set default fragment */
         openFragment(timediaryFragment);
         initLayout();
-
     }
 
     class MyItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {

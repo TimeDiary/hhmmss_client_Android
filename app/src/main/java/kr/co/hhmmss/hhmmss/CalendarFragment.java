@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -46,6 +47,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,6 +69,17 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
     private Button mAddEventButton;
     private Button mAddCalendarButton;
     ProgressDialog mProgress;
+
+    CalendarView calendarView;
+    private TextView calendarYear;
+    private TextView calendarMonthDate;
+    private TextView calendarDay;
+
+
+    String year;
+    String month;
+    String date;
+    String day;
 
     /*CalendarSetDialogFragment calendarSetDialogFragment;
     FragmentManager fragmentManager;*/
@@ -98,6 +111,28 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
 
         mStatusText = view.findViewById(R.id.textview_main_status);
         mResultText = view.findViewById(R.id.textview_main_result);
+
+        calendarView = view.findViewById(R.id.calendar_view);
+        calendarYear = view.findViewById(R.id.calendar_year);
+        calendarMonthDate = view.findViewById(R.id.calendar_month_date);
+        calendarDay = view.findViewById(R.id.calendar_day);
+
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int yearparam, int monthparam, int dateparam) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E요일", Locale.KOREA);
+
+                year = Integer.toString(yearparam);
+                month = Integer.toString(monthparam + 1);
+                date = Integer.toString(dateparam);
+                day = simpleDateFormat.format(new Date(calendarView.getDate()));
+
+                calendarYear.setText(year);
+                calendarMonthDate.setText(month + "/" + date);
+                calendarDay.setText(day);
+            }
+        });
 
         mAddCalendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +186,8 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                 Arrays.asList(SCOPES)
         ).setBackOff(new ExponentialBackOff()); // I/O 예외 상황을 대비해서 백오프 정책 사용
 
+
+        // 버튼(->캘린더) 클릭 시 입력 DialogFragment 호출
         Button temp = view.findViewById(R.id.temp_btn);
         temp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +199,7 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         });
         return view;
     }
+
 
     private String getResultsFromApi() {
         if (!isGooglePlayServicesAvailable()) { // Google Play Services를 사용할 수 없는 경우
@@ -184,7 +222,6 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
-
     // Google Play Services 업데이트로 해결가능하다면 업데이트하도록 유도하기위해 대화상자를 보여줌
     private void acquireGooglePlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
@@ -206,7 +243,6 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                 REQUEST_GOOGLE_PLAY_SERVICES
         );
         dialog.show();
-
     }
 
     /*
@@ -348,7 +384,6 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
         return id;
     }
 
-
     // 비동기적으로 Google Calendar API 호출
     private class MakeRequestTask extends AsyncTask<Void, Void, String> {
 
@@ -369,7 +404,6 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
                     .build();
         }
 
-
         @Override
         protected void onPreExecute() {
             // mStatusText.setText("");
@@ -377,7 +411,6 @@ public class CalendarFragment extends Fragment implements EasyPermissions.Permis
             mStatusText.setText("데이터 가져오는 중...");
             mResultText.setText("");
         }
-
 
         // 백그라운드에서 Google Calendar API 호출 처리
         @Override
