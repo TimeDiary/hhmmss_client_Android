@@ -162,6 +162,7 @@ public class TimediaryDayFragment extends Fragment {
     void loadTimediaryList(String date) {
         timediaryCollectionRef
                 .whereEqualTo("date", date)
+                .orderBy("time")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
