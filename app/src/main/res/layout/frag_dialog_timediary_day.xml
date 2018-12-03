@@ -67,17 +67,16 @@
                 android:gravity="center"
                 android:text="DAY: "
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/edittext_day"
+                app:layout_constraintEnd_toStartOf="@+id/textview_date_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/edittext_day"
+            <TextView
+                android:id="@+id/textview_date_content"
                 android:layout_width="@dimen/timediary_dialog_day_content_width"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/timediary_dialog_content_margin"
-                android:hint="@string/timediary_dialog_day_hint"
-                android:inputType="date"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textview_day"
@@ -185,17 +184,16 @@
                 android:gravity="center"
                 android:text="Rating: "
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/edittext_rating"
+                app:layout_constraintEnd_toStartOf="@+id/ratingbar_rating"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <EditText
-                android:id="@+id/edittext_rating"
-                android:layout_width="@dimen/timediary_dialog_rating_content_width"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/timediary_dialog_content_margin"
-                android:inputType="text"
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/ratingbar_rating"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textview_rating"

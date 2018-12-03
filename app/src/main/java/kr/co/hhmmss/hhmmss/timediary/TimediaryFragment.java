@@ -18,28 +18,18 @@ import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.IgnoreExtraProperties;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import kr.co.hhmmss.hhmmss.R;
 import kr.co.hhmmss.hhmmss.timediary.day.TimediaryDayFragment;
@@ -60,7 +50,7 @@ public class TimediaryFragment extends Fragment {
     private Object _value;
 
     // Settings
-    private TimediarySettings timediarySettings;
+//    private TimediarySettings timediarySettings;
 
     // view variables(for test)
     private View view;
@@ -205,243 +195,29 @@ public class TimediaryFragment extends Fragment {
     }
     /* .. */
 
+    // [START manage_db]
+    public void addRealtimeUpdateToTimediary(String date, String time) {
 
-    // [START set_settings]
-
-    /**
-     * Set settings (@field, @value) into @category.
-     *
-     * @param category : category of settings. (e.g. "app", "timediary", ...)
-     * @param field    : field for settings. (e.g. "main", "start", "frequency", ...)
-     * @param value    : value for settings.
-     */
-    void setSettings(final String category, String field, Object value) {
-        _field = field;
-        _value = value;
-        settingsCollectionRef
-                .whereEqualTo("uid", uid)
-                .whereEqualTo("category", category)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "Set settings: " + _field + ":" + _value);
-                                document.getReference().update(_field, _value);
-
-                            }
-                        } else {
-                            Log.w(TAG, "Error setting settings: " + _field + ":" + _value);
-                        }
-                    }
-                });
-
-    }
-    // [END set_settings]
-
-
-    // [START get_settings]
-
-    /**
-     * Get settings from @category.
-     *
-     * @param category : category of settings.
-     */
-    void getSettings(String category) {
-        settingsCollectionRef
-                .whereEqualTo("uid", uid)
-                .whereEqualTo("category", category)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "Get Settings");
-                                timediarySettings = document.toObject(TimediarySettings.class);
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting settings");
-                        }
-                    }
-                });
-
-    }
-    // [END get_settings]
-
-
-    // [START create_Timediary_into_Firestore]
-    void createTimediary(Timediary timediary) {
-        timediaryCollectionRef.add(timediary)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Timediary DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding Timediary document", e);
-                    }
-                });
-    }
-    // [END create_Timediary_into_Firestore]
-
-
-    // [START read_Timediary]
-
-    /**
-     * Read @uid's all TimediaryDocuments, and do (something).
-     */
-    private void readTimediary() {
-        getTimediaryQuery().get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
-                        Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
-                        // TODO: Write some feature.
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-
-                }
-            }
-        });
-    }
-
-    /**
-     * Read @uid's all TimediaryDocuments, and do (something).
-     *
-     * @param date
-     */
-    private void readTimediary(Long date) {
-        getTimediaryQuery(date).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
-                        Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
-                        // TODO: Write some feature.
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-
-                }
-            }
-        });
-    }
-
-    /**
-     * Read @uid's all TimediaryDocuments, and do (something).
-     *
-     * @param date
-     * @param time
-     */
-    private void readTimediary(Long date, Long time) {
-
-        getTimediaryQuery(date, time).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
-                                Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
-                                // TODO: Write some feature.
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-
-                        }
-                    }
-                });
-    }
-    // [END read_Timediary]
-
-
-    // [START update_Timediary]
-    void updateTimediary(Long date, Long time, String field, Object value) {
-        _field = field;
-        _value = value;
-        getTimediaryQuery(date, time).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
-                                Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
-                                timediaryDocument.getReference().update(_field, _value)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "TimediaryDocumentSnapshot successfully updated!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error updating document", e);
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents(to update): ", task.getException());
-
-                        }
-                    }
-                });
-    }
-    // [END update_Timediary]
-
-    // [START delete_Timediary]
-    void deleteTimediary(Long date, Long time, String field, Object value) {
-        _field = field;
-        _value = value;
-        getTimediaryQuery(date, time).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
-                                Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
-                                timediaryDocument.getReference().update(_field, _value)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "TimediaryDocumentSnapshot successfully updated!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error updating document", e);
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents(to update): ", task.getException());
-
-                        }
-                    }
-                });
-    }
-    // [END delete_Timediary]
-
-    // [START realtimeQuery_where_date&time=(...)_from_TimediaryDocuments]
-    void addTimediaryListener(Long date) {
         timediaryCollectionRef
-                .whereEqualTo("user", this.uid)
-                .whereEqualTo("date", date)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@javax.annotation.Nullable QuerySnapshot snapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                    public void onEvent(@Nullable QuerySnapshot snapshots,
+                                        @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.w(TAG, "listenTimediary:error", e);
+                            Log.w(TAG, "listen:error", e);
                             return;
                         }
 
+                        List<TimediaryDoc> timediaryList = new ArrayList<>();
+                        for (DocumentSnapshot doc : snapshots) {
+                            TimediaryDoc timediaryDoc = doc.toObject(TimediaryDoc.class);
+                            timediaryDoc.setId(doc.getId());
+                            timediaryList.add(timediaryDoc);
+                        }
+
+
+                        // instead of simply using the entire query snapshot
+                        // see the actual changes to query results between query snapshots (added, removed, and modified)
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
                             switch (dc.getType()) {
                                 case ADDED:
@@ -454,182 +230,438 @@ public class TimediaryFragment extends Fragment {
                                     Log.d(TAG, "Removed timediary: " + dc.getDocument().getData());
                                     break;
                             }
-
                         }
                     }
                 });
     }
-    // [END realtimeQuery_where_<key>_is_<value>_from_TimediaryDocuments]
+    // [END manage_db]
 
 
-    /* [START getTimediaryQuery] */
-
-    /**
-     * @return Query for "SELECT * FROM timediary WHERE uid=@uid;"
-     */
-    private Query getTimediaryQuery() {
-        Query q = timediaryCollectionRef
-                .whereEqualTo("uid", this.uid);
-        return q;
-    }
-
-
-    /**
-     * @param date: date for Timediary
-     * @return Query for "SELECT * FROM timediary WHERE uid=@uid&date=@date;"
-     */
-    private Query getTimediaryQuery(Long date) {
-        Query q = timediaryCollectionRef
-                .whereEqualTo("uid", this.uid)
-                .whereEqualTo("date", date);
-        return q;
-    }
-
-
-    /**
-     * @param date: date for Timediary
-     * @param time: time for Timediary
-     * @return Query for "SELECT * FROM timediary WHERE uid=@uid&date=@date&time=@time;
-     */
-    private Query getTimediaryQuery(Long date, Long time) {
-        Query q = timediaryCollectionRef
-                .whereEqualTo("uid", this.uid)
-                .whereEqualTo("date", date)
-                .whereEqualTo("time", time);
-        return q;
-    }
-
-    /* [END getTimediaryQuery] */
-
-
-    public static class TimediarySettings implements Serializable {
-
-        private Long start;
-        private Long frequency;
-        private Long end;
-
-        public TimediarySettings() {
-
-        }
-
-        public TimediarySettings(Long start, Long end, Long frequency) {
-            this.start = start;
-            this.end = end;
-            this.frequency = frequency;
-        }
-
-        public void setStart(Long start) {
-            this.start = start;
-        }
-
-        public Long getStart() {
-            return start;
-        }
-
-        public Long getFrequency() {
-            return frequency;
-        }
-
-        public void setFrequency(Long frequency) {
-            this.frequency = frequency;
-        }
-
-        public Long getEnd() {
-            return end;
-        }
-
-        public void setEnd(Long end) {
-            this.end = end;
-        }
-
-        @Exclude
-        public Map<String, Object> toMap() {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("start", start);
-            result.put("end", end);
-            result.put("frequency", frequency);
-
-
-            return result;
-        }
-
-    }
-
-
-    @IgnoreExtraProperties
-    public static class Timediary implements Serializable {
-
-        private String uid; // uid of FirebaseUser
-        private Long date;
-        private Long time;
-        private Long rating;
-        private String comment;
-
-
-        public Timediary() {
-            // Default constructor required for calls to DataSnapshot.getValue(Timediary.class)
-
-        }
-
-        public Timediary(String uid, Long date, Long time, Long rating, String comment) {
-            this.uid = uid;
-            this.date = date;
-            this.time = time;
-            this.rating = rating;
-            this.comment = comment;
-        }
-
-        public void setUser(String uid) {
-            this.uid = uid;
-        }
-
-        public String getUser() {
-            return this.uid;
-        }
-
-        public void setDate(Long date) {
-            this.date = date;
-        }
-
-        public Long getDate() {
-            return this.date;
-        }
-
-        public void setTime(Long time) {
-            this.time = time;
-        }
-
-        public Long getTime() {
-            return this.time;
-        }
-
-        public void setComment(String comment) {
-            this.comment = comment;
-        }
-
-        public String getComment() {
-            return comment;
-        }
-
-        public void setRating(Long rating) {
-            this.rating = rating;
-        }
-
-        public Long getRating() {
-            return rating;
-        }
-
-
-        @Exclude
-        public Map<String, Object> toMap() {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("date", date);
-            result.put("time", time);
-            result.put("comment", comment);
-            result.put("rating", rating);
-
-
-            return result;
-        }
-    }
+//
+//    // [START set_settings]
+//
+//    /**
+//     * Set settings (@field, @value) into @category.
+//     *
+//     * @param category : category of settings. (e.g. "app", "timediary", ...)
+//     * @param field    : field for settings. (e.g. "main", "start", "frequency", ...)
+//     * @param value    : value for settings.
+//     */
+//    void setSettings(final String category, String field, Object value) {
+//        _field = field;
+//        _value = value;
+//        settingsCollectionRef
+//                .whereEqualTo("uid", uid)
+//                .whereEqualTo("category", category)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, "Set settings: " + _field + ":" + _value);
+//                                document.getReference().update(_field, _value);
+//
+//                            }
+//                        } else {
+//                            Log.w(TAG, "Error setting settings: " + _field + ":" + _value);
+//                        }
+//                    }
+//                });
+//
+//    }
+//    // [END set_settings]
+//
+//
+//    // [START get_settings]
+//
+//    /**
+//     * Get settings from @category.
+//     *
+//     * @param category : category of settings.
+//     */
+//    void getSettings(String category) {
+//        settingsCollectionRef
+//                .whereEqualTo("uid", uid)
+//                .whereEqualTo("category", category)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, "Get Settings");
+//                                timediarySettings = document.toObject(TimediarySettings.class);
+//                            }
+//                        } else {
+//                            Log.w(TAG, "Error getting settings");
+//                        }
+//                    }
+//                });
+//
+//    }
+//    // [END get_settings]
+//
+//
+//    // [START create_Timediary_into_Firestore]
+//    void createTimediary(Timediary timediary) {
+//        timediaryCollectionRef.add(timediary)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(TAG, "Timediary DocumentSnapshot written with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error adding Timediary document", e);
+//                    }
+//                });
+//    }
+//    // [END create_Timediary_into_Firestore]
+//
+//
+//    // [START read_Timediary]
+//
+//    /**
+//     * Read @uid's all TimediaryDocuments, and do (something).
+//     */
+//    private void readTimediary() {
+//        getTimediaryQuery().get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
+//                        Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
+//                        // TODO: Write some feature.
+//                    }
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//
+//                }
+//            }
+//        });
+//    }
+//
+//    /**
+//     * Read @uid's all TimediaryDocuments, and do (something).
+//     *
+//     * @param date
+//     */
+//    private void readTimediary(Long date) {
+//        getTimediaryQuery(date).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
+//                        Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
+//                        // TODO: Write some feature.
+//                    }
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//
+//                }
+//            }
+//        });
+//    }
+//
+//    /**
+//     * Read @uid's all TimediaryDocuments, and do (something).
+//     *
+//     * @param date
+//     * @param time
+//     */
+//    private void readTimediary(Long date, Long time) {
+//
+//        getTimediaryQuery(date, time).get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
+//                                Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
+//                                // TODO: Write some feature.
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//
+//                        }
+//                    }
+//                });
+//    }
+//    // [END read_Timediary]
+//
+//
+//    // [START update_Timediary]
+//    void updateTimediary(Long date, Long time, String field, Object value) {
+//        _field = field;
+//        _value = value;
+//        getTimediaryQuery(date, time).get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
+//                                Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
+//                                timediaryDocument.getReference().update(_field, _value)
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                Log.d(TAG, "TimediaryDocumentSnapshot successfully updated!");
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                Log.w(TAG, "Error updating document", e);
+//                                            }
+//                                        });
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents(to update): ", task.getException());
+//
+//                        }
+//                    }
+//                });
+//    }
+//    // [END update_Timediary]
+//
+//    // [START delete_Timediary]
+//    void deleteTimediary(Long date, Long time, String field, Object value) {
+//        _field = field;
+//        _value = value;
+//        getTimediaryQuery(date, time).get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot timediaryDocument : task.getResult()) {
+//                                Log.d(TAG, timediaryDocument.getId() + " => " + timediaryDocument.getData());
+//                                timediaryDocument.getReference().update(_field, _value)
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                Log.d(TAG, "TimediaryDocumentSnapshot successfully updated!");
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                Log.w(TAG, "Error updating document", e);
+//                                            }
+//                                        });
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting documents(to update): ", task.getException());
+//
+//                        }
+//                    }
+//                });
+//    }
+//    // [END delete_Timediary]
+//
+//    // [START realtimeQuery_where_date&time=(...)_from_TimediaryDocuments]
+//    void addTimediaryListener(Long date) {
+//        timediaryCollectionRef
+//                .whereEqualTo("user", this.uid)
+//                .whereEqualTo("date", date)
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@javax.annotation.Nullable QuerySnapshot snapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+//                        if (e != null) {
+//                            Log.w(TAG, "listenTimediary:error", e);
+//                            return;
+//                        }
+//
+//                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+//                            switch (dc.getType()) {
+//                                case ADDED:
+//                                    Log.d(TAG, "New timediary: " + dc.getDocument().getData());
+//                                    break;
+//                                case MODIFIED:
+//                                    Log.d(TAG, "Modified timediary: " + dc.getDocument().getData());
+//                                    break;
+//                                case REMOVED:
+//                                    Log.d(TAG, "Removed timediary: " + dc.getDocument().getData());
+//                                    break;
+//                            }
+//
+//                        }
+//                    }
+//                });
+//    }
+//    // [END realtimeQuery_where_<key>_is_<value>_from_TimediaryDocuments]
+//
+//
+//    /* [START getTimediaryQuery] */
+//
+//    /**
+//     * @return Query for "SELECT * FROM timediary WHERE uid=@uid;"
+//     */
+//    private Query getTimediaryQuery() {
+//        Query q = timediaryCollectionRef
+//                .whereEqualTo("uid", this.uid);
+//        return q;
+//    }
+//
+//
+//    /**
+//     * @param date: date for Timediary
+//     * @return Query for "SELECT * FROM timediary WHERE uid=@uid&date=@date;"
+//     */
+//    private Query getTimediaryQuery(Long date) {
+//        Query q = timediaryCollectionRef
+//                .whereEqualTo("uid", this.uid)
+//                .whereEqualTo("date", date);
+//        return q;
+//    }
+//
+//
+//    /**
+//     * @param date: date for Timediary
+//     * @param time: time for Timediary
+//     * @return Query for "SELECT * FROM timediary WHERE uid=@uid&date=@date&time=@time;
+//     */
+//    private Query getTimediaryQuery(Long date, Long time) {
+//        Query q = timediaryCollectionRef
+//                .whereEqualTo("uid", this.uid)
+//                .whereEqualTo("date", date)
+//                .whereEqualTo("time", time);
+//        return q;
+//    }
+//
+//    /* [END getTimediaryQuery] */
+//
+//
+//    public static class TimediarySettings implements Serializable {
+//
+//        private Long start;
+//        private Long frequency;
+//        private Long end;
+//
+//        public TimediarySettings() {
+//
+//        }
+//
+//        public TimediarySettings(Long start, Long end, Long frequency) {
+//            this.start = start;
+//            this.end = end;
+//            this.frequency = frequency;
+//        }
+//
+//        public void setStart(Long start) {
+//            this.start = start;
+//        }
+//
+//        public Long getStart() {
+//            return start;
+//        }
+//
+//        public Long getFrequency() {
+//            return frequency;
+//        }
+//
+//        public void setFrequency(Long frequency) {
+//            this.frequency = frequency;
+//        }
+//
+//        public Long getEnd() {
+//            return end;
+//        }
+//
+//        public void setEnd(Long end) {
+//            this.end = end;
+//        }
+//
+//        @Exclude
+//        public Map<String, Object> toMap() {
+//            HashMap<String, Object> result = new HashMap<>();
+//            result.put("start", start);
+//            result.put("end", end);
+//            result.put("frequency", frequency);
+//
+//
+//            return result;
+//        }
+//
+//    }
+//
+//
+//    @IgnoreExtraProperties
+//    public static class Timediary implements Serializable {
+//
+//        private String uid; // uid of FirebaseUser
+//        private Long date;
+//        private Long time;
+//        private Long rating;
+//        private String comment;
+//
+//
+//        public Timediary() {
+//            // Default constructor required for calls to DataSnapshot.getValue(Timediary.class)
+//
+//        }
+//
+//        public Timediary(String uid, Long date, Long time, Long rating, String comment) {
+//            this.uid = uid;
+//            this.date = date;
+//            this.time = time;
+//            this.rating = rating;
+//            this.comment = comment;
+//        }
+//
+//        public void setUser(String uid) {
+//            this.uid = uid;
+//        }
+//
+//        public String getUser() {
+//            return this.uid;
+//        }
+//
+//        public void setDate(Long date) {
+//            this.date = date;
+//        }
+//
+//        public Long getDate() {
+//            return this.date;
+//        }
+//
+//        public void setTime(Long time) {
+//            this.time = time;
+//        }
+//
+//        public Long getTime() {
+//            return this.time;
+//        }
+//
+//        public void setComment(String comment) {
+//            this.comment = comment;
+//        }
+//
+//        public String getComment() {
+//            return comment;
+//        }
+//
+//        public void setRating(Long rating) {
+//            this.rating = rating;
+//        }
+//
+//        public Long getRating() {
+//            return rating;
+//        }
+//
+//
+//        @Exclude
+//        public Map<String, Object> toMap() {
+//            HashMap<String, Object> result = new HashMap<>();
+//            result.put("date", date);
+//            result.put("time", time);
+//            result.put("comment", comment);
+//            result.put("rating", rating);
+//
+//
+//            return result;
+//        }
+//    }
 }

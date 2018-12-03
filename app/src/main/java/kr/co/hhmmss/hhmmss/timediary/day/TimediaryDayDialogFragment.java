@@ -12,20 +12,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import kr.co.hhmmss.hhmmss.R;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class TimediaryDayDialogFragment extends DialogFragment {
 
     private Bundle getBundle;
     private ImageButton cancelButton;
     private ImageButton saveButton;
-    private TextView dayTextView;
-    private TextView timeTextView;
-    private TextView commentTextView;
-    private TextView ratingTextView;
-    private EditText dayEditText;
+    private TextView dateTextView;
     private EditText timeEditText;
     private EditText commentEditText;
-    private EditText ratingEditText;
+    private MaterialRatingBar ratingRatingBar;
 
     @Nullable
     private Bundle mArgs;
@@ -36,7 +33,7 @@ public class TimediaryDayDialogFragment extends DialogFragment {
     @Nullable
     private String mComment;
     @Nullable
-    private String mRating;
+    private Float mRating;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View dialogView = inflater.inflate(R.layout.frag_dialog_timediary_day, container);
@@ -47,7 +44,7 @@ public class TimediaryDayDialogFragment extends DialogFragment {
             mDate = mArgs.getString("date");
             mTime = mArgs.getString("time");
             mComment = mArgs.getString("comment");
-            mRating = mArgs.getString("rating");
+            mRating = mArgs.getFloat("rating");
         }
         // [END get_arguments_form_recyclerview]
 
@@ -55,22 +52,22 @@ public class TimediaryDayDialogFragment extends DialogFragment {
         // [START set_views]
         cancelButton = dialogView.findViewById(R.id.button_cancel);
         saveButton = dialogView.findViewById(R.id.button_save);
-        dayTextView = dialogView.findViewById(R.id.textview_day);
-        timeTextView = dialogView.findViewById(R.id.textview_time);
-        commentTextView = dialogView.findViewById(R.id.textview_comment);
-        ratingTextView = dialogView.findViewById(R.id.textview_rating);
+        TextView dayTextView = dialogView.findViewById(R.id.textview_day);
+        TextView timeTextView = dialogView.findViewById(R.id.textview_time);
+        TextView commentTextView = dialogView.findViewById(R.id.textview_comment);
+        TextView ratingTextView = dialogView.findViewById(R.id.textview_rating);
 
-        dayEditText = dialogView.findViewById(R.id.edittext_day);
+        dateTextView = dialogView.findViewById(R.id.textview_date_content);
         timeEditText = dialogView.findViewById(R.id.edittext_time);
         commentEditText = dialogView.findViewById(R.id.edittext_comment);
-        ratingEditText = dialogView.findViewById(R.id.edittext_rating);
+        ratingRatingBar = dialogView.findViewById(R.id.ratingbar_rating);
         // [END set_views]
 
         // [START set_data]
-        dayEditText.setText(mDate);
+        dateTextView.setText(mDate);
         timeEditText.setText(mTime);
         commentEditText.setText(mComment);
-        ratingEditText.setText(mRating);
+        ratingRatingBar.setRating(mRating);
         // [END set_data]
 
         // [START set_OnClickListener]

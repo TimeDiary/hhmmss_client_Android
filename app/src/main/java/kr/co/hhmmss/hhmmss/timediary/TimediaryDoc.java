@@ -10,6 +10,7 @@ public class TimediaryDoc {
     private String time;
     private String comment;
     private Float rating;
+    private String id;
 
     public TimediaryDoc() {
     }
@@ -74,5 +75,13 @@ public class TimediaryDoc {
 
         return data;
 
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }
