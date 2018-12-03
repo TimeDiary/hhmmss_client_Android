@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,6 +32,10 @@ import kr.co.hhmmss.hhmmss.timediary.TimediaryManager;
 public class TimediaryDayFragment extends Fragment {
 
     private final static String TAG = "TimediaryDayFragment";
+
+    // FirebaseUser
+    private FirebaseUser firebaseUser;
+    private String uid;
 
     // View
     private TimediaryDayRecyclerViewAdapter adapter;
@@ -49,6 +55,8 @@ public class TimediaryDayFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = firebaseUser.getUid();
         firestoreDB = FirebaseFirestore.getInstance();
         timediaryManager = new TimediaryManager();
     }
@@ -161,6 +169,7 @@ public class TimediaryDayFragment extends Fragment {
 
     void loadTimediaryList(String date) {
         timediaryCollectionRef
+                .whereEqualTo("uid", uid)
                 .whereEqualTo("date", date)
                 .orderBy("time")
                 .get()
